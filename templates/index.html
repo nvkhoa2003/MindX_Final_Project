@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Global Superstore Sales & Logistics Analytics Executive Dashboard" />
+  <title>Global Superstore Sales & Logistics Dashboard</title>
+
+  <!-- Phông chữ Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Bộ biểu tượng FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Thư viện biểu đồ: Chart.js & Plotly.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       BIẾN CSS & BẢNG MÀU GIAO DIỆN (THEME TOKENS)
+       ========================================================================== */
+    :root {
+      --bg-base: #0B0F19;
+      --bg-surface: #111827;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(31, 41, 55, 0.85);
+      --bg-card-border: rgba(255, 255, 255, 0.08);
+      --bg-input: #1F2937;
+      
+      --text-primary: #F9FAFB;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+
+      --accent-primary: #3B82F6;
+      --accent-primary-gradient: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      --accent-success: #10B981;
+      --accent-success-gradient: linear-gradient(135deg, #10B981 0%, #047857 100%);
+      --accent-warning: #F59E0B;
+      --accent-warning-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      --accent-purple: #8B5CF6;
+      --accent-purple-gradient: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+      --accent-rose: #EC4899;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.45);
+      --glass-glow: 0 0 25px rgba(59, 130, 246, 0.15);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --transition-fast: 0.2s ease;
+      --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-base: #F3F4F6;
+      --bg-surface: #FFFFFF;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-card-hover: #FFFFFF;
+      --bg-card-border: rgba(0, 0, 0, 0.08);
+      --bg-input: #F3F4F6;
+
+      --text-primary: #111827;
+      --text-secondary: #4B5563;
+      --text-muted: #9CA3AF;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.12);
+      --glass-glow: 0 0 20px rgba(59, 130, 246, 0.1);
+    }
+
+    /* ==========================================================================
+       RESET CSS & ĐỊNH DẠNG CƠ BẢN TOÀN CỤC
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* ==========================================================================
+       KHUNG CHỨA BỐ CỤC CHÍNH (LAYOUT CONTAINER)
+       ========================================================================== */
+    .dashboard-container {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ==========================================================================
+       THANH TIÊU ĐỀ & ĐIỀU HƯỚNG (HEADER & NAVIGATION BAR)
+       ========================================================================== */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--accent-primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    .brand-title h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFFFFF 30%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    [data-theme="light"] .brand-title h1 {
+      background: linear-gradient(135deg, #1E3A8A 30%, #3B82F6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10B981;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 1px solid var(--bg-card-border);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: var(--transition-fast);
+    }
+
+    .btn-icon:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       THANH BỘ LỌC TOÀN CỤC (GLOBAL FILTERS BAR)
+       ========================================================================== */
+    .filter-bar {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;
+      gap: 16px;
+      align-items: flex-end;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition-fast);
+    }
+
+    .custom-select:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition-fast);
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary-gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .btn-secondary:hover {
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       KHỐI CÁC THẺ KPI TỔNG HỢP (CSS GRID)
+       ========================================================================== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 1200px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kpi-card {
+      position: relative;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      opacity: 0.8;
+    }
+
+    .kpi-sales::before { background: var(--accent-primary-gradient); }
+    .kpi-profit::before { background: var(--accent-success-gradient); }
+    .kpi-shipping::before { background: var(--accent-warning-gradient); }
+    .kpi-orders::before { background: var(--accent-purple-gradient); }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .kpi-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .kpi-icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .kpi-sales .kpi-icon-wrap { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+    .kpi-profit .kpi-icon-wrap { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+    .kpi-shipping .kpi-icon-wrap { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+    .kpi-orders .kpi-icon-wrap { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .kpi-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .kpi-badge.positive {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+    }
+
+    .kpi-badge.neutral {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3B82F6;
+    }
+
+    /* ==========================================================================
+       BỐ CỤC LƯỚI BIỂU ĐỒ CHÍNH (CHARTS)
+       ========================================================================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .chart-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chart-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chart-icon {
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .chart-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .chart-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-tab-group {
+      display: flex;
+      background: var(--bg-input);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .pill-tab {
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .pill-tab.active {
+      background: var(--accent-primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Khung chứa Bản đồ Choropleth */
+    .map-container {
+      height: 480px;
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .map-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+      z-index: 10;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--bg-card-border);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.78rem;
+      color: #93C5FD;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Bố cục 2 cột: Cơ cấu Danh mục & Phân tích Chi phí Vận chuyển */
+    .two-column-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .two-column-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-box {
+      position: relative;
+      width: 100%;
+      height: 340px;
+    }
+
+    .selected-country-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93C5FD;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       PHẦN 3: ĐỊNH DẠNG BIỂU ĐỒ XU HƯỚNG DOANH THU & LỢI NHUẬN THEO QUỐC GIA
+       ========================================================================== */
+    .trend-country-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      padding: 10px 16px;
+      background: var(--bg-input);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .selector-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .country-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .country-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--bg-card-border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      transition: var(--transition-fast);
+      user-select: none;
+    }
+
+    .country-chip:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .country-chip.active {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3B82F6;
+      color: #93C5FD;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    }
+
+    .country-chip .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .trend-summary-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .trend-mini-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: var(--transition-fast);
+      border-left: 3px solid var(--accent-primary);
+    }
+
+    .trend-mini-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .trend-mini-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .trend-mini-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .trend-mini-footer {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+    }
+
+    .trend-badge.positive {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+    }
+
+    .trend-badge.negative {
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+    }
+
+    /* ==========================================================================
+       CHÂN TRANG (FOOTER)
+       ========================================================================== */
+    .dashboard-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--bg-card-border);
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- THANH TIÊU ĐỀ (HEADER) -->
+    <header class="dashboard-header">
+      <div class="brand-section">
+        <div class="brand-logo-badge">
+          <i class="fa-solid fa-earth-americas"></i>
+        </div>
+        <div class="brand-title">
+          <h1>GLOBAL SUPERSTORE SALES & LOGISTICS DASHBOARD</h1>
+          <p>
+            <span class="status-pill"><span class="status-dot"></span> Live Analytics Engine</span>
+            <span>• Global Retail Intelligence & Supply Chain Monitor</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button class="btn-icon" id="themeToggle" title="Đổi giao diện Sáng / Tối">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="btn-icon" id="refreshBtn" title="Tải lại dữ liệu">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- BỘ LỌC TOÀN CỤC (GLOBAL FILTERS) -->
+    <section class="filter-bar">
+      <div class="filter-group">
+        <label class="filter-label" for="filterYear">
+          <i class="fa-regular fa-calendar"></i> Năm Đặt Hàng
+        </label>
+        <select class="custom-select" id="filterYear">
+          <option value="all">Tất cả các năm (2011 - 2014)</option>
+          <option value="2011">Năm 2011</option>
+          <option value="2012">Năm 2012</option>
+          <option value="2013">Năm 2013</option>
+          <option value="2014">Năm 2014</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterRegion">
+          <i class="fa-solid fa-location-dot"></i> Khu Vực (Market)
+        </label>
+        <select class="custom-select" id="filterRegion">
+          <option value="all">Tất cả Khu vực (All Markets)</option>
+          <option value="APAC">APAC (Châu Á - Thái Bình Dương)</option>
+          <option value="EU">EU (Châu Âu)</option>
+          <option value="US">US (Hoa Kỳ)</option>
+          <option value="LATAM">LATAM (Mỹ Latinh)</option>
+          <option value="EMEA">EMEA (Trung Đông & Châu Phi)</option>
+          <option value="Africa">Africa (Châu Phi)</option>
+          <option value="Canada">Canada</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterSegment">
+          <i class="fa-solid fa-users"></i> Phân Khúc Khách Hàng
+        </label>
+        <select class="custom-select" id="filterSegment">
+          <option value="all">Tất cả phân khúc</option>
+          <option value="Consumer">Consumer (Cá nhân)</option>
+          <option value="Corporate">Corporate (Doanh nghiệp)</option>
+          <option value="Home Office">Home Office (Văn phòng tại nhà)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterCountry">
+          <i class="fa-solid fa-flag"></i> Quốc Gia Trọng Tâm
+        </label>
+        <select class="custom-select" id="filterCountry">
+          <option value="United States">United States (Mỹ)</option>
+          <option value="Australia">Australia</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="France">France</option>
+          <option value="Germany">Germany</option>
+          <option value="China">China</option>
+          <option value="India">India</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Japan">Japan</option>
+          <option value="Indonesia">Indonesia</option>
+          <option value="Vietnam">Vietnam</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-action btn-primary" id="applyFiltersBtn">
+          <i class="fa-solid fa-filter"></i> Lọc Dữ Liệu
+        </button>
+        <button class="btn-action btn-secondary" id="resetFiltersBtn" title="Đặt lại mặc định">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- CÁC THẺ KPI TỔNG HỢP -->
+    <section class="kpi-grid">
+      <!-- KPI 1: TỔNG DOANH THU -->
+      <div class="kpi-card kpi-sales">
+        <div class="kpi-header">
+          <span class="kpi-title">Tổng Doanh Thu (Sales)</span>
+          <div class="kpi-icon-wrap">
+            <i class="fa-solid fa-dollar-sign"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpiSales">$12,642,500</div>
+        <div class="kpi-footer">
+          <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% YoY</span>
+          <span>51,290 đơn hàng</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: TỔNG LỢI NHUẬN -->
+      <div class="kpi-card kpi-profit">
+        <div class="kpi-header">
+          <span class="kpi-title">Tổng Lợi Nhuận (Profit)</span>
+          <div class="kpi-icon-wrap">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpiProfit">$1,467,500</div>
+        <div class="kpi-footer">
+          <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> 11.6% Margin</span>
+          <span id="kpiProfitMargin">Tỷ suất LN cao</span>
+        </div>
+      </div>
+
+      <!-- KPI 3: CHI PHÍ VẬN CHUYỂN -->
+      <div class="kpi-card kpi-shipping">
+        <div class="kpi-header">
+          <span class="kpi-title">Chi Phí Vận Chuyển</span>
+          <div class="kpi-icon-wrap">
+            <i class="fa-solid fa-truck-fast"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpiShipping">$1,350,200</div>
+        <div class="kpi-footer">
+          <span class="kpi-badge neutral"><i class="fa-solid fa-boxes-packing"></i> 10.7% Sales</span>
+          <span>4 hình thức ship</span>
+        </div>
+      </div>
+
+      <!-- KPI 4: TỔNG ĐƠN HÀNG -->
+      <div class="kpi-card kpi-orders">
+        <div class="kpi-header">
+          <span class="kpi-title">Tổng Đơn Hàng / SL Bán</span>
+          <div class="kpi-icon-wrap">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpiOrders">51,290</div>
+        <div class="kpi-footer">
+          <span class="kpi-badge positive"><i class="fa-solid fa-check"></i> 147 Quốc gia</span>
+          <span>Toàn cầu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHẦN 1: BẢN ĐỒ NHIỆT TOÀN CẦU (CHOROPLETH MAP) -->
+    <section class="chart-card" id="mapCard">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <i class="fa-solid fa-map-location-dot chart-icon"></i>
+          <div>
+            <h2 class="chart-title">Bản Đồ Nhiệt Doanh Thu & Lợi Nhuận Toàn Cầu (Choropleth Map)</h2>
+            <p class="chart-subtitle">Phân bố doanh số theo từng quốc gia. Click trực tiếp vào quốc gia để xem Top sản phẩm tương ứng.</p>
+          </div>
+        </div>
+        <div class="chart-actions">
+          <div class="pill-tab-group" id="mapMetricToggle">
+            <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
+            <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-container" id="choroplethMap"></div>
+      <div class="map-hint">
+        <i class="fa-solid fa-hand-pointer"></i> Mẹo: Nhấp vào bất kỳ quốc gia nào trên bản đồ để tự động chuyển biểu đồ Top Sản phẩm!
+      </div>
+    </section>
+
+    <!-- PHẦN 2: TOP SẢN PHẨM BÁN CHẠY THEO QUỐC GIA ĐÃ CHỌN -->
+    <section class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <i class="fa-solid fa-trophy chart-icon" style="color: #F59E0B;"></i>
+          <div>
+            <h2 class="chart-title">
+              Top Sản Phẩm Bán Chạy Nhất Tại: 
+              <span class="selected-country-badge" id="currentCountryLabel">
+                <i class="fa-solid fa-flag"></i> United States
+              </span>
+            </h2>
+            <p class="chart-subtitle">Xếp hạng các sản phẩm có doanh số và số lượng cao nhất</p>
+          </div>
+        </div>
+        <div class="chart-actions">
+          <div class="pill-tab-group" id="topProductsLimitToggle">
+            <button class="pill-tab active" data-limit="5">Top 5</button>
+            <button class="pill-tab" data-limit="10">Top 10</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="topProductsChart"></canvas>
+      </div>
+    </section>
+
+    <!-- PHẦN 3: XU HƯỚNG DOANH THU & LỢI NHUẬN THEO NĂM CỦA CÁC QUỐC GIA -->
+    <section class="chart-card" id="yearlyTrendCard">
+      <div class="chart-header" style="flex-wrap: wrap; gap: 16px;">
+        <div class="chart-title-wrap">
+          <i class="fa-solid fa-arrow-trend-up chart-icon" style="color: #38BDF8;"></i>
+          <div>
+            <h2 class="chart-title">Xu Hướng Tăng Trưởng Doanh Thu Qua Các Năm (2011 - 2014)</h2>
+            <p class="chart-subtitle">So sánh biến động Doanh thu & Lợi nhuận và tốc độ tăng trưởng liên năm (YoY) giữa các thị trường trọng điểm</p>
+          </div>
+        </div>
+        <div class="chart-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div class="pill-tab-group" id="trendMetricToggle">
+            <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
+            <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
+          </div>
+          <button class="btn-action btn-secondary" id="resetTrendCountriesBtn" style="padding: 6px 14px; font-size: 0.78rem;" title="Đặt lại về Top 5 thị trường lớn nhất">
+            <i class="fa-solid fa-arrows-rotate"></i> Top 5 Thị Trường
+          </button>
+        </div>
+      </div>
+
+      <!-- Thanh chọn nhanh các quốc gia đối soát (Chips) -->
+      <div class="trend-country-selector">
+        <span class="selector-label"><i class="fa-solid fa-sliders"></i> Chọn quốc gia đối soát:</span>
+        <div class="country-chips-wrap" id="trendCountryChips">
+          <!-- Các thẻ quốc gia được sinh tự động bằng JavaScript -->
+        </div>
+      </div>
+
+      <!-- Hàng thẻ thống kê nhanh mức tăng trưởng YoY -->
+      <div class="trend-summary-row" id="trendSummaryRow">
+        <!-- Các thẻ thống kê mini được sinh tự động bằng JavaScript -->
+      </div>
+
+      <!-- Biểu đồ đường đa trục chính -->
+      <div class="chart-box" style="height: 380px;">
+        <canvas id="yearlyTrendChart"></canvas>
+      </div>
+    </section>
+
+    <!-- PHẦN 4 & 5: CƠ CẤU DANH MỤC & PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
+    <section class="two-column-grid">
+      
+      <!-- BIỂU ĐỒ 4: CƠ CẤU DANH MỤC NGÀNH HÀNG -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-wrap">
+            <i class="fa-solid fa-chart-pie chart-icon" style="color: #10B981;"></i>
+            <div>
+              <h2 class="chart-title">Cơ Cấu Danh Mục Ngành Hàng (Category)</h2>
+              <p class="chart-subtitle">Tỷ trọng Doanh thu và Lợi nhuận theo Technology, Furniture & Office Supplies</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+      <!-- BIỂU ĐỒ 5: PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-wrap">
+            <i class="fa-solid fa-truck-ramp-box chart-icon" style="color: #8B5CF6;"></i>
+            <div>
+              <h2 class="chart-title">Phân Tích Chi Phí Vận Chuyển (Shipping Analysis)</h2>
+              <p class="chart-subtitle">Tổng chi phí và chi phí vận chuyển trung bình theo từng Ship Mode</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="shippingChart"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CHÂN TRANG (FOOTER) -->
+    <footer class="dashboard-footer">
+      <div>
+        <strong>Global Superstore Intelligence</strong> • MindX Final Project
+      </div>
+      <div>
+        API Status: <span id="apiStatusText" style="color: #10B981;">Ready (Auto / REST)</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- LOGIC JAVASCRIPT & BỘ MÁY TRỰC QUAN HÓA DỮ LIỆU -->
+  <script>
+    /* ==========================================================================
+       TRẠNG THÁI DASHBOARD & DỮ LIỆU KHỞI TẠO (STATE)
+       ========================================================================== */
+    const State = {
+      theme: 'dark',
+      filters: {
+        year: 'all',
+        region: 'all',
+        segment: 'all',
+        country: 'United States'
+      },
+      mapMetric: 'sales',
+      topLimit: 5,
+      trendMetric: 'sales',
+      trendCountries: ['United States', 'Australia', 'China', 'Germany', 'India'],
+      apiBaseUrl: '/api/v1',
+      charts: {
+        topProducts: null,
+        category: null,
+        shipping: null,
+        yearlyTrend: null
+      }
+    };
+
+    // Định dạng tiền tệ (ví dụ: $1.2M, $45.6k)
+    const formatCurrency = (val) => {
+      if (val >= 1000000) return '$' + (val / 1000000).toFixed(2) + 'M';
+      if (val >= 1000) return '$' + (val / 1000).toFixed(1) + 'k';
+      return '$' + Number(val).toLocaleString();
+    };
+
+    const formatNumber = (val) => Number(val).toLocaleString();
+
+    /* ==========================================================================
+       BỘ ĐIỀU KHIỂN GIAO DIỆN SÁNG / TỐI (THEME CONTROLLER)
+       ========================================================================== */
+    const initTheme = () => {
+      const toggleBtn = document.getElementById('themeToggle');
+      toggleBtn.addEventListener('click', () => {
+        State.theme = State.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', State.theme);
+        toggleBtn.innerHTML = State.theme === 'dark' 
+          ? '<i class="fa-solid fa-moon"></i>' 
+          : '<i class="fa-solid fa-sun"></i>';
+        
+        // Vẽ lại bản đồ và biểu đồ để khớp với giao diện Sáng / Tối
+        renderChoroplethMap(window._cachedCountryData || getMockCountryData());
+        updateChartJsThemes();
+      });
+    };
+
+    const updateChartJsThemes = () => {
+      const textColor = State.theme === 'dark' ? '#9CA3AF' : '#4B5563';
+      const gridColor = State.theme === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)';
+
+      [State.charts.topProducts, State.charts.category, State.charts.shipping, State.charts.yearlyTrend].forEach(chart => {
+        if (!chart) return;
+        if (chart.options.scales?.x) {
+          chart.options.scales.x.ticks.color = textColor;
+          chart.options.scales.x.grid.color = gridColor;
+        }
+        if (chart.options.scales?.y) {
+          chart.options.scales.y.ticks.color = textColor;
+          chart.options.scales.y.grid.color = gridColor;
+        }
+        chart.update();
+      });
+    };
+
+    /* ==========================================================================
+       BỘ SINH DỮ LIỆU MẪU DỰ PHÒNG (Sử dụng mượt mà khi Backend đang khởi động)
+       ========================================================================== */
+    const getMockSummary = () => ({
+      total_sales: 12642500,
+      total_profit: 1467500,
+      total_shipping: 1350200,
+      total_orders: 51290
+    });
+
+    const getMockCountryData = () => [
+      { country: "United States", sales: 2297200, profit: 286397, order_count: 9994 },
+      { country: "Australia", sales: 925235, profit: 103907, order_count: 2837 },
+      { country: "United Kingdom", sales: 528900, profit: 111900, order_count: 1633 },
+      { country: "France", sales: 858931, profit: 109012, order_count: 2822 },
+      { country: "Germany", sales: 628840, profit: 107322, order_count: 2065 },
+      { country: "China", sales: 700562, profit: 150683, order_count: 1880 },
+      { country: "India", sales: 589650, profit: 129000, order_count: 1555 },
+      { country: "Brazil", sales: 361400, profit: 30090, order_count: 1599 },
+      { country: "Mexico", sales: 622590, profit: 102818, order_count: 2644 },
+      { country: "Japan", sales: 172000, profit: 32000, order_count: 650 },
+      { country: "Indonesia", sales: 404830, profit: 15600, order_count: 1390 },
+      { country: "Vietnam", sales: 65800, profit: 8900, order_count: 245 },
+      { country: "Canada", sales: 66928, profit: 17817, order_count: 384 },
+      { country: "Italy", sales: 289700, profit: 19800, order_count: 1105 },
+      { country: "Spain", sales: 287100, profit: 54390, order_count: 859 }
+    ];
+
+    const getMockTopProducts = (country, limit = 5) => {
+      const mockDatabase = {
+        "United States": [
+          { product_name: "Canon imageCLASS 2200 Advanced Copier", category: "Technology", sales: 61599, quantity: 20, profit: 25199 },
+          { product_name: "Fellowes PB500 Electric Punch Binding", category: "Office Supplies", sales: 27453, quantity: 33, profit: 7753 },
+          { product_name: "Hewlett Packard LaserJet 3310 Copier", category: "Technology", sales: 18839, quantity: 18, profit: 6983 },
+          { product_name: "HON 5400 Series Task Chairs", category: "Furniture", sales: 17816, quantity: 42, profit: 4120 },
+          { product_name: "GBC DocuBind P400 Electric Binding", category: "Office Supplies", sales: 17165, quantity: 29, profit: 3950 },
+          { product_name: "Apple iPhone 5S (16GB)", category: "Technology", sales: 15800, quantity: 24, profit: 4200 },
+          { product_name: "Samsung Galaxy S4", category: "Technology", sales: 14200, quantity: 26, profit: 3800 },
+          { product_name: "Riverside Palais Royal Lawyers Bookcase", category: "Furniture", sales: 13500, quantity: 15, profit: 2900 },
+          { product_name: "Bretford CR4500 Series Executive Table", category: "Furniture", sales: 12900, quantity: 14, profit: 1800 },
+          { product_name: "Ibico EPK-21 Electric Comb Binder", category: "Office Supplies", sales: 11800, quantity: 21, profit: 3100 }
+        ],
+        "Australia": [
+          { product_name: "Samsung Smart Phone, VoIP", category: "Technology", sales: 22638, quantity: 24, profit: 4890 },
+          { product_name: "Nokia Smart Phone, Full Size", category: "Technology", sales: 19450, quantity: 18, profit: 3900 },
+          { product_name: "Hon Executive Leather Armchair", category: "Furniture", sales: 16200, quantity: 22, profit: 2400 },
+          { product_name: "Canon Imageclass Fax Machine", category: "Technology", sales: 14800, quantity: 14, profit: 3100 },
+          { product_name: "Novimex Executive Armchair", category: "Furniture", sales: 13900, quantity: 19, profit: 1950 }
+        ]
+      };
+
+      const list = mockDatabase[country] || [
+        { product_name: `Global Executive Desk (${country})`, category: "Furniture", sales: 18500, quantity: 15, profit: 3200 },
+        { product_name: `Canon Multi-function Printer (${country})`, category: "Technology", sales: 15200, quantity: 12, profit: 2900 },
+        { product_name: `Apple Smart Office Device (${country})`, category: "Technology", sales: 12900, quantity: 18, profit: 2400 },
+        { product_name: `High Security Shredder (${country})`, category: "Office Supplies", sales: 9400, quantity: 22, profit: 1800 },
+        { product_name: `Ergonomic Mesh Chair (${country})`, category: "Furniture", sales: 8100, quantity: 14, profit: 1200 },
+        { product_name: `Heavy Duty Storage Box (${country})`, category: "Office Supplies", sales: 6500, quantity: 35, profit: 950 },
+        { product_name: `Wireless Bluetooth Headset (${country})`, category: "Technology", sales: 5800, quantity: 28, profit: 1100 }
+      ];
+
+      return list.slice(0, limit);
+    };
+
+    const getMockCategories = () => [
+      { category: "Technology", sales: 4744557, profit: 663778, order_count: 18450 },
+      { category: "Furniture", sales: 4110874, profit: 285204, order_count: 14820 },
+      { category: "Office Supplies", sales: 3787069, profit: 518475, order_count: 18020 }
+    ];
+
+    const getMockShipping = () => [
+      { ship_mode: "Standard Class", total_shipping_cost: 754200, avg_shipping_cost: 24.5, order_count: 30775 },
+      { ship_mode: "Second Class", total_shipping_cost: 282100, avg_shipping_cost: 27.4, order_count: 10309 },
+      { ship_mode: "First Class", total_shipping_cost: 218500, avg_shipping_cost: 29.1, order_count: 7505 },
+      { ship_mode: "Same Day", total_shipping_cost: 95400, avg_shipping_cost: 35.3, order_count: 2701 }
+    ];
+
+    const getMockYearlyTrend = (countries, metric = 'sales') => {
+      const years = [2011, 2012, 2013, 2014];
+      const baseValues = {
+        "United States": { sales: [484247, 470532, 608474, 733947], profit: [52300, 58200, 78100, 97800] },
+        "Australia": { sales: [168340, 200420, 260510, 295964], profit: [18400, 21900, 29800, 33800] },
+        "China": { sales: [112400, 145200, 198300, 244661], profit: [24100, 31200, 42600, 52780] },
+        "Germany": { sales: [98400, 126100, 185400, 218940], profit: [16800, 21500, 31600, 37420] },
+        "India": { sales: [89600, 118400, 172900, 208750], profit: [19600, 25900, 37800, 45700] },
+        "France": { sales: [135400, 178200, 246500, 298831], profit: [17200, 22600, 31300, 37912] },
+        "United Kingdom": { sales: [82400, 108300, 153800, 184400], profit: [17400, 22900, 32500, 39100] },
+        "Brazil": { sales: [56200, 74100, 105800, 125300], profit: [4700, 6200, 8800, 10390] },
+        "Mexico": { sales: [97400, 128500, 182400, 214290], profit: [16100, 21200, 30100, 35418] },
+        "Japan": { sales: [26900, 35400, 50300, 59400], profit: [5000, 6600, 9300, 11100] },
+        "Indonesia": { sales: [63200, 83100, 118400, 140130], profit: [2400, 3200, 4600, 5400] },
+        "Vietnam": { sales: [10300, 13500, 19200, 22800], profit: [1400, 1800, 2600, 3100] }
+      };
+
+      const countriesData = countries.map(country => {
+        const item = baseValues[country] || {
+          sales: [30000, 42000, 60000, 75000],
+          profit: [4500, 6300, 9000, 11250]
+        };
+        const yearlyValues = item[metric] || item.sales;
+        const total = yearlyValues.reduce((a, b) => a + b, 0);
+        const yoyGrowth = (((yearlyValues[3] - yearlyValues[0]) / yearlyValues[0]) * 100).toFixed(1);
+        return {
+          country: country,
+          yearly_values: yearlyValues,
+          total: total,
+          yoy_growth_percent: parseFloat(yoyGrowth)
+        };
+      });
+
+      return {
+        years: years,
+        metric: metric,
+        countries_data: countriesData
+      };
+    };
+
+    /* ==========================================================================
+       TẦNG TÍCH HỢP API (FETCH VỚI CƠ CHẾ DỰ PHÒNG THÔNG MINH)
+       ========================================================================== */
+    const buildQueryString = () => {
+      const params = new URLSearchParams();
+      if (State.filters.year !== 'all') params.append('year', State.filters.year);
+      if (State.filters.region !== 'all') params.append('region', State.filters.region);
+      if (State.filters.segment !== 'all') params.append('segment', State.filters.segment);
+      return params.toString();
+    };
+
+    const fetchSalesByCountry = async () => {
+      try {
+        const query = buildQueryString();
+        const res = await fetch(`${State.apiBaseUrl}/sales-by-country${query ? '?' + query : ''}`);
+        if (!res.ok) throw new Error("API not ready");
+        const data = await res.json();
+        document.getElementById('apiStatusText').textContent = 'Backend REST API Connected';
+        document.getElementById('apiStatusText').style.color = '#10B981';
+        return data;
+      } catch (e) {
+        // Tự động chuyển sang dữ liệu mẫu dự phòng nếu API gặp sự cố
+        return { summary: getMockSummary(), country_data: getMockCountryData() };
+      }
+    };
+
+    const fetchTopProducts = async (country, limit) => {
+      try {
+        const params = new URLSearchParams();
+        params.append('country', country);
+        params.append('top_n', limit);
+        if (State.filters.year !== 'all') params.append('year', State.filters.year);
+        if (State.filters.segment !== 'all') params.append('segment', State.filters.segment);
+
+        const res = await fetch(`${State.apiBaseUrl}/top-products-by-country?${params.toString()}`);
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        return data.top_products || [];
+      } catch (e) {
+        return getMockTopProducts(country, limit);
+      }
+    };
+
+    const fetchCategoryBreakdown = async () => {
+      try {
+        const query = buildQueryString();
+        const res = await fetch(`${State.apiBaseUrl}/orders-by-category${query ? '?' + query : ''}`);
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+      } catch (e) {
+        return getMockCategories();
+      }
+    };
+
+    const fetchShippingAnalysis = async () => {
+      try {
+        const query = buildQueryString();
+        const res = await fetch(`${State.apiBaseUrl}/shipping-analysis${query ? '?' + query : ''}`);
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+      } catch (e) {
+        return getMockShipping();
+      }
+    };
+
+    const fetchYearlyTrend = async (countries, metric) => {
+      try {
+        const params = new URLSearchParams();
+        params.append('countries', countries.join(','));
+        params.append('metric', metric);
+        if (State.filters.segment !== 'all') params.append('segment', State.filters.segment);
+        const res = await fetch(`${State.apiBaseUrl}/yearly-sales-by-country?${params.toString()}`);
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+      } catch (e) {
+        return getMockYearlyTrend(countries, metric);
+      }
+    };
+
+    /* ==========================================================================
+       BIỂU ĐỒ 1: BẢN ĐỒ NHIỆT TOÀN CẦU CHOROPLETH MAP (PLOTLY.JS)
+       ========================================================================== */
+    const renderChoroplethMap = (countryData) => {
+      window._cachedCountryData = countryData;
+
+      const isDark = State.theme === 'dark';
+      const metric = State.mapMetric; // 'sales' (Doanh thu) hoặc 'profit' (Lợi nhuận)
+
+      const locations = countryData.map(d => d.country);
+      const values = countryData.map(d => metric === 'sales' ? d.sales : d.profit);
+      const textHover = countryData.map(d => 
+        `<b>${d.country}</b><br>` +
+        `• Sales: ${formatCurrency(d.sales)}<br>` +
+        `• Profit: ${formatCurrency(d.profit)}<br>` +
+        `• Orders: ${formatNumber(d.order_count)}<br>` +
+        `<i>👉 Nhấp để xem Top SP</i>`
+      );
+
+      const colorScale = metric === 'sales'
+        ? [[0, '#1E3A8A'], [0.2, '#2563EB'], [0.5, '#3B82F6'], [0.8, '#60A5FA'], [1, '#93C5FD']]
+        : [[0, '#064E3B'], [0.2, '#059669'], [0.5, '#10B981'], [0.8, '#34D399'], [1, '#6EE7B7']];
+
+      const plotData = [{
+        type: 'choropleth',
+        locationmode: 'country names',
+        locations: locations,
+        z: values,
+        text: textHover,
+        hoverinfo: 'text',
+        colorscale: colorScale,
+        autocolorscale: false,
+        reversescale: false,
+        marker: {
+          line: {
+            color: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)',
+            width: 0.8
+          }
+        },
+        colorbar: {
+          title: {
+            text: metric === 'sales' ? 'Sales ($)' : 'Profit ($)',
+            font: { color: isDark ? '#E5E7EB' : '#1F2937', size: 12 }
+          },
+          tickfont: { color: isDark ? '#9CA3AF' : '#4B5563', size: 10 },
+          thickness: 14,
+          len: 0.75,
+          bgcolor: 'transparent'
+        }
+      }];
+
+      const layout = {
+        geo: {
+          showframe: false,
+          showcoastlines: true,
+          coastlinecolor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+          projection: { type: 'natural earth' },
+          bgcolor: 'transparent',
+          showland: true,
+          landcolor: isDark ? '#1F2937' : '#E5E7EB',
+          showocean: true,
+          oceancolor: isDark ? '#0F172A' : '#F8FAFC',
+          showlakes: false
+        },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        margin: { l: 0, r: 0, t: 10, b: 0 },
+        font: { family: 'Plus Jakarta Sans, sans-serif' }
+      };
+
+      const config = {
+        responsive: true,
+        displayModeBar: false
+      };
+
+      Plotly.newPlot('choroplethMap', plotData, layout, config);
+
+      // Lắng nghe sự kiện: Nhấp vào quốc gia trên bản đồ -> đổi State.filters.country & cập nhật Top SP
+      const mapElem = document.getElementById('choroplethMap');
+      mapElem.removeAllListeners && mapElem.removeAllListeners('plotly_click');
+      mapElem.on('plotly_click', (data) => {
+        if (data.points && data.points.length > 0) {
+          const clickedCountry = data.points[0].location;
+          if (clickedCountry) {
+            State.filters.country = clickedCountry;
+            
+            // Đồng bộ dropdown chọn quốc gia nếu quốc gia có trong danh sách
+            const countrySelect = document.getElementById('filterCountry');
+            let matched = false;
+            for (let opt of countrySelect.options) {
+              if (opt.value.toLowerCase() === clickedCountry.toLowerCase()) {
+                countrySelect.value = opt.value;
+                matched = true;
+                break;
+              }
+            }
+            if (!matched) {
+              // Tự động thêm tùy chọn mới nếu chưa có
+              const newOpt = new Option(clickedCountry, clickedCountry, true, true);
+              countrySelect.add(newOpt);
+            }
+
+            updateTopProductsSection();
+          }
+        }
+      });
+    };
+
+    /* ==========================================================================
+       BIỂU ĐỒ 2: TOP SẢN PHẨM BÁN CHẠY (HORIZONTAL BAR CHART)
+       ========================================================================== */
+    const renderTopProductsChart = (products) => {
+      const ctx = document.getElementById('topProductsChart').getContext('2d');
+      const isDark = State.theme === 'dark';
+
+      document.getElementById('currentCountryLabel').innerHTML = 
+        `<i class="fa-solid fa-flag"></i> ${State.filters.country}`;
+
+      const labels = products.map(p => {
+        const name = p.product_name || 'Product';
+        return name.length > 36 ? name.substring(0, 36) + '...' : name;
+      });
+      const salesData = products.map(p => p.sales);
+      const profitData = products.map(p => p.profit);
+
+      if (State.charts.topProducts) {
+        State.charts.topProducts.destroy();
+      }
+
+      State.charts.topProducts = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Doanh thu ($)',
+              data: salesData,
+              backgroundColor: '#3B82F6',
+              borderRadius: 6,
+              barPercentage: 0.65
+            },
+            {
+              label: 'Lợi nhuận ($)',
+              data: profitData,
+              backgroundColor: '#10B981',
+              borderRadius: 6,
+              barPercentage: 0.65
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                boxWidth: 14,
+                boxHeight: 14,
+                useBorderRadius: true,
+                borderRadius: 4
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (val) => formatCurrency(val)
+              }
+            },
+            y: {
+              grid: { display: false },
+              ticks: {
+                color: isDark ? '#E5E7EB' : '#1F2937',
+                font: { family: 'Plus Jakarta Sans', size: 11, weight: '500' }
+              }
+            }
+          }
+        }
+      });
+    };
+
+    /* ==========================================================================
+       BIỂU ĐỒ 4: CƠ CẤU DANH MỤC NGÀNH HÀNG (DOUGHNUT VỚI HIỆU ỨNG HOVER NỔI BẬT)
+       ========================================================================== */
+    const renderCategoryChart = (categories) => {
+      const ctx = document.getElementById('categoryChart').getContext('2d');
+      const isDark = State.theme === 'dark';
+
+      const labels = categories.map(c => c.category);
+      const salesData = categories.map(c => c.sales);
+
+      if (State.charts.category) {
+        State.charts.category.destroy();
+      }
+
+      State.charts.category = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: salesData,
+            backgroundColor: ['#3B82F6', '#10B981', '#8B5CF6'],
+            borderWidth: isDark ? 2 : 1,
+            borderColor: isDark ? '#111827' : '#FFFFFF',
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                padding: 16,
+                useBorderRadius: true,
+                borderRadius: 4
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const val = ctx.raw;
+                  const total = salesData.reduce((a, b) => a + b, 0);
+                  const pct = ((val / total) * 100).toFixed(1);
+                  return ` ${ctx.label}: ${formatCurrency(val)} (${pct}%)`;
+                }
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    };
+
+    /* ==========================================================================
+       BIỂU ĐỒ 5: PHÂN TÍCH CHI PHÍ VẬN CHUYỂN (MIXED BAR & LINE CHART)
+       ========================================================================== */
+    const renderShippingChart = (shippingData) => {
+      const ctx = document.getElementById('shippingChart').getContext('2d');
+      const isDark = State.theme === 'dark';
+
+      const labels = shippingData.map(s => s.ship_mode);
+      const totalShipping = shippingData.map(s => s.total_shipping_cost);
+      const avgShipping = shippingData.map(s => s.avg_shipping_cost);
+
+      if (State.charts.shipping) {
+        State.charts.shipping.destroy();
+      }
+
+      State.charts.shipping = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Tổng Phí Ship ($)',
+              data: totalShipping,
+              backgroundColor: '#F59E0B',
+              borderRadius: 8,
+              yAxisID: 'y'
+            },
+            {
+              type: 'line',
+              label: 'Phí Ship Trung Bình ($/đơn)',
+              data: avgShipping,
+              borderColor: '#EC4899',
+              backgroundColor: '#EC4899',
+              borderWidth: 3,
+              pointRadius: 5,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                boxWidth: 14,
+                boxHeight: 14,
+                useBorderRadius: true,
+                borderRadius: 4
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+              ticks: { color: isDark ? '#9CA3AF' : '#4B5563' }
+            },
+            y: {
+              type: 'linear',
+              position: 'left',
+              grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (v) => formatCurrency(v)
+              }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              grid: { drawOnChartArea: false },
+              ticks: {
+                color: '#EC4899',
+                callback: (v) => '$' + v
+              }
+            }
+          }
+        }
+      });
+    };
+
+    /* ==========================================================================
+       BIỂU ĐỒ 3: XU HƯỚNG DOANH THU & LỢI NHUẬN THEO NĂM (MULTI-LINE CHART)
+       ========================================================================== */
+    const TREND_COLOR_PALETTE = [
+      '#3B82F6', // Xanh dương
+      '#10B981', // Xanh ngọc lục bảo
+      '#F59E0B', // Hổ phách
+      '#8B5CF6', // Tím
+      '#EC4899', // Hồng cánh sen
+      '#06B6D4', // Xanh lơ
+      '#F97316', // Cam
+      '#E11D48', // Đỏ hoa hồng
+      '#14B8A6', // Xanh mòng két
+      '#6366F1'  // Xanh chàm
+    ];
+
+    const ALL_AVAILABLE_TREND_COUNTRIES = [
+      "United States", "Australia", "China", "Germany", "India", 
+      "France", "United Kingdom", "Brazil", "Mexico", "Japan", 
+      "Indonesia", "Vietnam"
+    ];
+
+    const renderTrendCountryChips = () => {
+      const container = document.getElementById('trendCountryChips');
+      if (!container) return;
+      container.innerHTML = '';
+
+      ALL_AVAILABLE_TREND_COUNTRIES.forEach((c, idx) => {
+        const isActive = State.trendCountries.includes(c);
+        const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
+        
+        const chip = document.createElement('div');
+        chip.className = `country-chip ${isActive ? 'active' : ''}`;
+        chip.innerHTML = `
+          <span class="chip-dot" style="background-color: ${color};"></span>
+          <span>${c}</span>
+        `;
+        chip.addEventListener('click', async () => {
+          if (State.trendCountries.includes(c)) {
+            if (State.trendCountries.length > 1) {
+              State.trendCountries = State.trendCountries.filter(item => item !== c);
+            }
+          } else {
+            State.trendCountries.push(c);
+          }
+          renderTrendCountryChips();
+          await updateYearlyTrendSection();
+        });
+        container.appendChild(chip);
+      });
+    };
+
+    const renderYearlyTrendChart = (trendData) => {
+      const canvas = document.getElementById('yearlyTrendChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const isDark = State.theme === 'dark';
+      const metric = State.trendMetric;
+
+      // 1. Hiển thị các thẻ thống kê nhanh (Mini Summary Cards)
+      const summaryRow = document.getElementById('trendSummaryRow');
+      if (summaryRow && trendData.countries_data) {
+        summaryRow.innerHTML = trendData.countries_data.map((item, idx) => {
+          const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
+          const isGrowthPos = item.yoy_growth_percent >= 0;
+          return `
+            <div class="trend-mini-card" style="border-left-color: ${color};">
+              <div class="trend-mini-header">
+                <span>${item.country}</span>
+                <span class="trend-badge ${isGrowthPos ? 'positive' : 'negative'}">
+                  <i class="fa-solid ${isGrowthPos ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                  ${isGrowthPos ? '+' : ''}${item.yoy_growth_percent}%
+                </span>
+              </div>
+              <div class="trend-mini-val">${formatCurrency(item.total)}</div>
+              <div class="trend-mini-footer">
+                <span>Tổng 4 năm (${metric === 'sales' ? 'Doanh thu' : 'Lợi nhuận'})</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 2. Xây dựng tập dữ liệu cho Chart.js
+      const datasets = (trendData.countries_data || []).map((item, idx) => {
+        const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
+        return {
+          label: item.country,
+          data: item.yearly_values,
+          borderColor: color,
+          backgroundColor: color,
+          borderWidth: 2.8,
+          tension: 0.35,
+          pointRadius: 4.5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: color,
+          pointBorderColor: isDark ? '#111827' : '#FFFFFF',
+          pointBorderWidth: 2,
+          fill: false
+        };
+      });
+
+      if (State.charts.yearlyTrend) {
+        State.charts.yearlyTrend.destroy();
+      }
+
+      State.charts.yearlyTrend = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: (trendData.years || [2011, 2012, 2013, 2014]).map(y => 'Năm ' + y),
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                boxWidth: 14,
+                boxHeight: 14,
+                useBorderRadius: true,
+                borderRadius: 4
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+              ticks: { 
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 }
+              }
+            },
+            y: {
+              grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (v) => formatCurrency(v)
+              }
+            }
+          }
+        }
+      });
+    };
+
+    const updateYearlyTrendSection = async () => {
+      const data = await fetchYearlyTrend(State.trendCountries, State.trendMetric);
+      renderYearlyTrendChart(data);
+    };
+
+    /* ==========================================================================
+       BỘ ĐIỀU KHIỂN: CẬP NHẬT PHẦN TOP SẢN PHẨM
+       ========================================================================== */
+    const updateTopProductsSection = async () => {
+      const products = await fetchTopProducts(State.filters.country, State.topLimit);
+      renderTopProductsChart(products);
+    };
+
+    /* ==========================================================================
+       BỘ ĐIỀU KHIỂN: TẢI LẠI TOÀN BỘ DỮ LIỆU DASHBOARD
+       ========================================================================== */
+    const refreshDashboard = async () => {
+      // 1. Lấy Doanh thu theo quốc gia & Số liệu tổng hợp KPI
+      const salesRes = await fetchSalesByCountry();
+      if (salesRes.summary) {
+        document.getElementById('kpiSales').textContent = formatCurrency(salesRes.summary.total_sales);
+        document.getElementById('kpiProfit').textContent = formatCurrency(salesRes.summary.total_profit);
+        document.getElementById('kpiShipping').textContent = formatCurrency(salesRes.summary.total_shipping);
+        document.getElementById('kpiOrders').textContent = formatNumber(salesRes.summary.total_orders);
+
+        const margin = ((salesRes.summary.total_profit / salesRes.summary.total_sales) * 100).toFixed(1);
+        document.getElementById('kpiProfitMargin').textContent = `${margin}% LN biên`;
+      }
+
+      // 2. Vẽ Bản đồ nhiệt toàn cầu (Choropleth Map)
+      renderChoroplethMap(salesRes.country_data || getMockCountryData());
+
+      // 3. Cập nhật biểu đồ Top Sản phẩm
+      await updateTopProductsSection();
+
+      // 4. Cập nhật biểu đồ Xu hướng theo năm
+      await updateYearlyTrendSection();
+
+      // 5. Cập nhật biểu đồ Cơ cấu danh mục
+      const catData = await fetchCategoryBreakdown();
+      renderCategoryChart(catData);
+
+      // 6. Cập nhật biểu đồ Chi phí vận chuyển
+      const shipData = await fetchShippingAnalysis();
+      renderShippingChart(shipData);
+    };
+
+    /* ==========================================================================
+       LẮNG NGHE SỰ KIỆN & GẮN BỘ ĐIỀU KHIỂN (EVENT LISTENERS)
+       ========================================================================== */
+    const initEventListeners = () => {
+      // Nút Áp dụng bộ lọc
+      document.getElementById('applyFiltersBtn').addEventListener('click', () => {
+        State.filters.year = document.getElementById('filterYear').value;
+        State.filters.region = document.getElementById('filterRegion').value;
+        State.filters.segment = document.getElementById('filterSegment').value;
+        State.filters.country = document.getElementById('filterCountry').value;
+        refreshDashboard();
+      });
+
+      // Nút Đặt lại bộ lọc về mặc định
+      document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+        document.getElementById('filterYear').value = 'all';
+        document.getElementById('filterRegion').value = 'all';
+        document.getElementById('filterSegment').value = 'all';
+        document.getElementById('filterCountry').value = 'United States';
+
+        State.filters.year = 'all';
+        State.filters.region = 'all';
+        State.filters.segment = 'all';
+        State.filters.country = 'United States';
+        refreshDashboard();
+      });
+
+      // Thay đổi nhanh quốc gia từ dropdown
+      document.getElementById('filterCountry').addEventListener('change', (e) => {
+        State.filters.country = e.target.value;
+        updateTopProductsSection();
+      });
+
+      // Chuyển đổi chỉ số bản đồ (Doanh thu vs Lợi nhuận)
+      document.querySelectorAll('#mapMetricToggle .pill-tab').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('#mapMetricToggle .pill-tab').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          State.mapMetric = e.currentTarget.dataset.metric;
+          renderChoroplethMap(window._cachedCountryData || getMockCountryData());
+        });
+      });
+
+      // Chuyển đổi số lượng Top sản phẩm (Top 5 vs Top 10)
+      document.querySelectorAll('#topProductsLimitToggle .pill-tab').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('#topProductsLimitToggle .pill-tab').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          State.topLimit = parseInt(e.currentTarget.dataset.limit, 10);
+          updateTopProductsSection();
+        });
+      });
+
+      // Chuyển đổi chỉ số biểu đồ xu hướng (Doanh thu vs Lợi nhuận)
+      document.querySelectorAll('#trendMetricToggle .pill-tab').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          document.querySelectorAll('#trendMetricToggle .pill-tab').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          State.trendMetric = e.currentTarget.dataset.metric;
+          await updateYearlyTrendSection();
+        });
+      });
+
+      // Nút khôi phục Top 5 thị trường lớn nhất
+      document.getElementById('resetTrendCountriesBtn').addEventListener('click', async () => {
+        State.trendCountries = ['United States', 'Australia', 'China', 'Germany', 'India'];
+        renderTrendCountryChips();
+        await updateYearlyTrendSection();
+      });
+
+      // Nút Làm mới toàn bộ dữ liệu
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        refreshDashboard();
+      });
+    };
+
+    /* ==========================================================================
+       ĐIỂM KHỞI CHẠY CHÍNH (INITIALIZATION ENTRYPOINT)
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderTrendCountryChips();
+      initEventListeners();
+      refreshDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# ==============================================================================
+# DANH SÁCH THƯ VIỆN PHỤ THUỘC CHO DỰ ÁN GLOBAL SUPERSTORE (MindX Final Project)
+# Cài đặt môi trường bằng lệnh: pip install -r requirement.txt
+# ==============================================================================
+
+# Framework Web & REST API Backend
+flask==3.1.3
+flask-cors==6.0.5
+
+# Xử lý & Phân tích Dữ liệu
+pandas==2.3.3
+numpy==2.0.2
