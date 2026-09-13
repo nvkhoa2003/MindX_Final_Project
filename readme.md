@@ -16,17 +16,13 @@
 ## 📑 Mục Lục (Table of Contents)
 
 1. [Giới Thiệu Dự Án (Project Overview)](#-1-giới-thiệu-dự-án-project-overview)
-2. [Những Phát Hiện Kinh Doanh Trọng Tâm (Key Business Insights)](#-2-những-phát-hiện-kinh-doanh-trọng-tâm-key-business-insights)
-3. [Dữ Liệu & Quy Trình Tiền Xử Lý (Data Pipeline)](#-3-dữ-liệu--quy-trình-tiền-xử-lý-data-pipeline)
-4. [Kiến Trúc Hệ Thống (System Architecture)](#-4-kiến-trúc-hệ-thống-system-architecture)
-5. [Đặc Tả Chi Tiết 6 REST API Endpoints](#-5-đặc-tả-chi-tiết-6-rest-api-endpoints)
-6. [Tính Năng Giao Diện Web Client (Dashboard Features)](#-6-tính-năng-giao-diện-web-client-dashboard-features)
-7. [Công Nghệ Sử Dụng (Tech Stack)](#-7-công-nghệ-sử-dụng-tech-stack)
-8. [Cấu Trúc Thư Mục Dự Án (Project Structure)](#-8-cấu-trúc-thư-mục-dự-án-project-structure)
-9. [Hướng Dẫn Cài Đặt & Khởi Chạy (Installation & Getting Started)](#-9-hướng-dẫn-cài-đặt--khởi-chạy-installation--getting-started)
-10. [Hướng Dẫn Kiểm Thử & Trải Nghiệm (Testing & Demonstration)](#-10-hướng-dẫn-kiểm-thử--trải-nghiệm-testing--demonstration)
-11. [Quy Trình Quản Lý Mã Nguồn (Git Workflow)](#-11-quy-trình-quản-lý-mã-nguồn-git-workflow)
-12. [Tác Giả & Lời Cảm Ơn (Authors & Acknowledgments)](#-12-tác-giả--lời-cảm-ơn-authors--acknowledgments)
+2. [Dữ Liệu & Quy Trình Tiền Xử Lý (Data Pipeline)](#-2-dữ-liệu--quy-trình-tiền-xử-lý-data-pipeline)
+3. [Kiến Trúc Hệ Thống (System Architecture)](#-3-kiến-trúc-hệ-thống-system-architecture)
+4. [Đặc Tả Chi Tiết 6 REST API Endpoints](#-4-đặc-tả-chi-tiết-6-rest-api-endpoints)
+5. [Tính Năng Giao Diện Web Client (Dashboard Features)](#-5-tính-năng-giao-diện-web-client-dashboard-features)
+6. [Công Nghệ Sử Dụng (Tech Stack)](#-6-công-nghệ-sử-dụng-tech-stack)
+7. [Hướng Dẫn Cài Đặt & Khởi Chạy (Installation & Getting Started)](#-7-hướng-dẫn-cài-đặt--khởi-chạy-installation--getting-started)
+8. [Tác Giả & Lời Cảm Ơn (Authors & Acknowledgments)](#-8-tác-giả--lời-cảm-ơn-authors--acknowledgments)
 
 ---
 
@@ -41,31 +37,13 @@ Trong bối cảnh thương mại bán lẻ và chuỗi cung ứng toàn cầu p
 
 ---
 
-## 💡 2. Những Phát Hiện Kinh Doanh Trọng Tâm (Key Business Insights)
+## 📊 2. Dữ Liệu & Quy Trình Tiền Xử Lý (Data Pipeline)
 
-Thông qua quá trình khai phá dữ liệu và phân tích chỉ số kinh doanh, dự án đã rút ra các kết luận cốt lõi:
-
-1. **Thị trường đóng góp doanh số chủ lực**:
-   - **Hoa Kỳ (United States)**, **Úc (Australia)** và **Trung Quốc (China)** là 3 thị trường dẫn đầu toàn cầu về doanh số tích lũy.
-   - Khu vực Châu Á - Thái Bình Dương (**APAC**) thể hiện tốc độ tăng trưởng doanh thu hàng năm (**YoY > 75%**) ấn tượng nhất giai đoạn 2011–2014.
-2. **Cơ cấu danh mục & Nghịch lý biên lợi nhuận**:
-   - Ngành hàng **Công nghệ (Technology)** là động cơ tạo lợi nhuận chính với biên lợi nhuận ròng cao và ổn định.
-   - Ngành hàng **Nội thất (Furniture)** đóng góp doanh số cao nhưng biên lợi nhuận mỏng do chịu ảnh hưởng bởi mức chiết khấu giảm giá (**Discount**) cao và chi phí vận chuyển cồng kềnh.
-3. **Hiệu quả Logistics & Chi phí vận chuyển**:
-   - Hình thức giao hàng tiêu chuẩn (**Standard Class**) chiếm tỷ trọng áp đảo (> 60% tổng lượng đơn hàng) với chi phí vận chuyển bình quân tối ưu nhất (~$20/đơn).
-   - Hình thức giao hàng trong ngày (**Same Day**) có chi phí bình quân cao gấp hơn 2 lần (~$43/đơn), thường chỉ phù hợp cho phân khúc đơn hàng giá trị cao hoặc các thị trường nội địa khẩn cấp.
-4. **Phân khúc khách hàng (Customer Segments)**:
-   - Khách hàng tiêu dùng cá nhân (**Consumer**) chiếm hơn **51%** thị phần doanh thu, tiếp tục là trụ cột bán lẻ; kế đến là nhóm Doanh nghiệp (**Corporate** ~30%) và Văn phòng tại gia (**Home Office** ~19%).
-
----
-
-## 📊 3. Dữ Liệu & Quy Trình Tiền Xử Lý (Data Pipeline)
-
-### 3.1. Nguồn Dữ Liệu
+### 2.1. Nguồn Dữ Liệu
 - **Tên tập dữ liệu**: [Global Superstore Dataset trên Kaggle](https://www.kaggle.com/datasets/fatihilhan/global-superstore-dataset).
 - **Quy mô**: **51.290 dòng** giao dịch, chứa dữ liệu thương mại quốc tế từ năm 2011 đến năm 2014.
 
-### 3.2. Quy Hoạch 14 Thuộc Tính Dữ Liệu Trọng Tâm
+### 2.2. Quy Hoạch 14 Thuộc Tính Dữ Liệu Trọng Tâm
 Từ 24 cột dữ liệu ban đầu, dự án đã tinh lọc còn **14 trường thuộc tính chuẩn hóa** để tối ưu hóa bộ nhớ và tốc độ tính toán:
 
 | STT | Tên cột (Column Name) | Kiểu dữ liệu | Ý nghĩa nghiệp vụ |
@@ -85,7 +63,7 @@ Từ 24 cột dữ liệu ban đầu, dự án đã tinh lọc còn **14 trườ
 | **13**| `Shipping Cost` | `Float` | Chi phí vận chuyển đơn hàng ($) |
 | **14**| `Year` | `Integer` | Năm giao dịch (2011, 2012, 2013, 2014) |
 
-### 3.3. Quy Trình Tiền Xử Lý (Data Cleaning Pipeline)
+### 2.3. Quy Trình Tiền Xử Lý (Data Cleaning Pipeline)
 1. **Làm sạch giá trị khuyết thiếu**: Loại bỏ các thuộc tính không cần thiết có tỷ lệ null cao (như `Postal Code`), xử lý các dòng dữ liệu không hợp lệ.
 2. **Chuẩn hóa kiểu dữ liệu**: Ép kiểu số thực làm tròn 2 chữ số thập phân (`Sales`, `Profit`, `Shipping Cost`), ép kiểu số nguyên (`Quantity`, `Year`).
 3. **Trích xuất thuộc tính chuỗi thời gian**: Tạo trường `Order Month` dạng `YYYY-MM` để phục vụ tính toán tốc độ tăng trưởng liên tháng (MoM).
@@ -93,7 +71,7 @@ Từ 24 cột dữ liệu ban đầu, dự án đã tinh lọc còn **14 trườ
 
 ---
 
-## 🏗️ 4. Kiến Trúc Hệ Thống (System Architecture)
+## 🏗️ 3. Kiến Trúc Hệ Thống (System Architecture)
 
 Dự án tuân thủ kiến trúc phân tầng chuẩn **RESTful Client - Server**:
 
@@ -129,7 +107,7 @@ graph TD
 
 ---
 
-## 🔌 5. Đặc Tả Chi Tiết 6 REST API Endpoints
+## 🔌 4. Đặc Tả Chi Tiết 6 REST API Endpoints
 
 Hệ thống cung cấp **6 RESTful API endpoints** với tiền tố `/api/v1/`:
 
@@ -282,11 +260,11 @@ Hệ thống cung cấp **6 RESTful API endpoints** với tiền tố `/api/v1/`
 
 ---
 
-## 🖥️ 6. Tính Năng Giao Diện Web Client (Dashboard Features)
+## 🖥️ 5. Tính Năng Giao Diện Web Client (Dashboard Features)
 
 Hệ thống được thiết kế dưới dạng ứng dụng đơn trang (**Single Page Application - SPA**) gồm 2 phân hệ chuyên biệt:
 
-### 🌟 6.1. Phân Hệ 1: Tổng Quan Thị Trường & Logistics (Overview)
+### 🌟 5.1. Phân Hệ 1: Tổng Quan Thị Trường & Logistics (Overview)
 - **Bộ Lọc Toàn Cục (Global Multi-filters)**:
   - Lọc theo Năm: *Tất cả, 2011, 2012, 2013, 2014*.
   - Lọc theo Thị trường: *APAC, EU, US, LATAM, EMEA, Africa, Canada*.
@@ -309,7 +287,7 @@ Hệ thống được thiết kế dưới dạng ứng dụng đơn trang (**Si
 
 ---
 
-### 📈 6.2. Phân Hệ 2: Phân Tích Xu Hướng Thị Trường (Market Growth Trends)
+### 📈 5.2. Phân Hệ 2: Phân Tích Xu Hướng Thị Trường (Market Growth Trends)
 - **Biểu Đồ Xu Hướng Chuỗi Thời Gian Đa Trục (Multi-line Trend Chart)**:
   - So sánh xu hướng phát triển giữa các thị trường trọng điểm.
   - Hỗ trợ đổi chỉ số tức thì giữa **Doanh thu ($)** và **Lợi nhuận ($)**.
@@ -325,7 +303,7 @@ Hệ thống được thiết kế dưới dạng ứng dụng đơn trang (**Si
 
 ---
 
-### 🎨 6.3. Điểm Nhấn Thiết Kế UI/UX
+### 🎨 5.3. Điểm Nhấn Thiết Kế UI/UX
 - **Dark Mode & Light Mode**: Hỗ trợ chuyển đổi giao diện Sáng / Tối thông minh với một cú click, lưu trạng thái giao diện.
 - **Phong Cách Glassmorphism**: Nền card mờ trong suốt (Backdrop Blur), viền tinh tế, bóng đổ nhiều lớp tạo chiều sâu.
 - **Phông Chữ Hiện Đại**: Tích hợp hai phông chữ công nghệ cao cấp `Plus Jakarta Sans` và `Inter`.
@@ -333,7 +311,7 @@ Hệ thống được thiết kế dưới dạng ứng dụng đơn trang (**Si
 
 ---
 
-## 💻 7. Công Nghệ Sử Dụng (Tech Stack)
+## 💻 6. Công Nghệ Sử Dụng (Tech Stack)
 
 ### Backend & Data Processing
 - **Python (v3.9 / v3.10+)**: Ngôn ngữ lập trình chính.
@@ -352,39 +330,7 @@ Hệ thống được thiết kế dưới dạng ứng dụng đơn trang (**Si
 
 ---
 
-## 📁 8. Cấu Trúc Thư Mục Dự Án (Project Structure)
-
-```text
-project_mindx/
-│
-├── data/
-│   ├── raw/
-│   │   └── superstore.csv            # Dữ liệu gốc Kaggle (>51.290 bản ghi, 24 cột)
-│   └── processed/
-│       └── clean_superstore.csv      # Dữ liệu đã làm sạch & chuẩn hóa (14 cột trọng tâm)
-│
-├── notebooks/
-│   └── data_cleaning.ipynb           # Jupyter Notebook khảo sát & làm sạch dữ liệu
-│
-├── src/
-│   ├── __pycache__/                  # Bytecode cache của Python
-│   ├── app.py                        # Server Flask chính, định tuyến 6 REST API endpoints
-│   ├── data_loader.py                # Module đọc & nạp dữ liệu sạch vào bộ nhớ RAM
-│   ├── preprocessing.py              # Module chuẩn hóa kiểu dữ liệu & lọc động đa chiều
-│   └── features.py                   # Các thuật toán tính toán KPI, tổng hợp & phân tích tăng trưởng
-│
-├── templates/
-│   └── index.html                    # Giao diện Executive Dashboard hoàn chỉnh (HTML/CSS/JS)
-│
-├── .gitignore                        # Cấu hình bỏ qua file tạm, môi trường ảo, cache
-├── PROJECT_OUTLINE.md                # Kế hoạch chi tiết và đặc tả kỹ thuật dự án
-├── readme.md                         # Tài liệu giới thiệu & hướng dẫn chi tiết (File này)
-└── requirement.txt                   # Danh sách thư viện và phiên bản phụ thuộc
-```
-
----
-
-## 🚀 9. Hướng Dẫn Cài Đặt & Khởi Chạy (Installation & Getting Started)
+## 🚀 7. Hướng Dẫn Cài Đặt & Khởi Chạy (Installation & Getting Started)
 
 ### Yêu Cầu Tiên Quyết (Prerequisites)
 - Máy tính đã cài đặt **Python 3.9** trở lên ([Tải Python](https://www.python.org/downloads/)).
@@ -437,63 +383,11 @@ Mở trình duyệt và truy cập vào đường dẫn:
 
 ---
 
-## 🧪 10. Hướng Dẫn Kiểm Thử & Trải Nghiệm (Testing & Demonstration)
-
-### 10.1. Kiểm thử giao diện Web Client
-1. **Kiểm tra bộ lọc toàn cục**:
-   - Chọn Năm `2014`, Khu vực `APAC`, Phân khúc `Consumer` $\rightarrow$ Nhấn **"Lọc Dữ Liệu"**.
-   - Quan sát các thẻ KPI, bản đồ nhiệt và biểu đồ danh mục tự động cập nhật tương ứng.
-2. **Kiểm tra tương tác bản đồ thế giới**:
-   - Di chuột trên bản đồ để xem Tooltip hiển thị Doanh số / Lợi nhuận của từng nước.
-   - Nhấp chuột trực tiếp vào một quốc gia (ví dụ: **Australia**) $\rightarrow$ Biểu đồ **Top Sản Phẩm** sẽ tự động trích xuất các sản phẩm bán chạy nhất tại Australia.
-3. **Kiểm tra phân hệ Xu Hướng Tăng Trưởng**:
-   - Nhấp vào Tab **"Phân Tích Xu Hướng Thị Trường"**.
-   - Chọn khoảng tháng: Từ `2012-01` Đến `2014-12`.
-   - Nhấp vào các thẻ Chip quốc gia để bật/tắt đường biểu diễn trên biểu đồ.
-   - Chuyển đổi giữa hai chế độ xem: **Doanh Thu ($)** và **Lợi Nhuận ($)**.
-4. **Đổi giao diện Sáng / Tối**:
-   - Nhấp vào nút biểu tượng Mặt trăng / Mặt trời ở góc trên bên phải để kiểm tra độ tương phản và giao diện Dark/Light mode.
-
-### 10.2. Kiểm thử API bằng cURL / Postman
-Có thể kiểm tra trực tiếp các REST API bằng trình duyệt hoặc dòng lệnh cURL:
-```bash
-# Kiểm tra API KPI và bản đồ theo năm 2013
-curl "http://127.0.0.1:8386/api/v1/sales-by-country?year=2013"
-
-# Kiểm tra Top 5 sản phẩm của thị trường Pháp (France)
-curl "http://127.0.0.1:8386/api/v1/top-products-by-country?country=France&top_n=5"
-
-# Kiểm tra phân tích tăng trưởng theo tháng cho ngành Technology
-curl "http://127.0.0.1:8386/api/v1/monthly-growth-by-category?category=Technology&metric=sales"
-```
-
----
-
-## 📤 11. Quy Trình Quản Lý Mã Nguồn (Git Workflow)
-
-Quy trình quản lý phiên bản mã nguồn chuẩn khi phát triển dự án:
-
-```powershell
-# 1. Kiểm tra trạng thái các file đã chỉnh sửa
-git status
-
-# 2. Thêm các thay đổi vào staging area
-git add .
-
-# 3. Tạo commit với thông điệp rõ ràng theo chuẩn Conventional Commits
-git commit -m "docs: cập nhật chuẩn hóa toàn diện tài liệu readme.md"
-
-# 4. Đẩy mã nguồn lên nhánh chính trên GitHub
-git push origin main
-```
-
----
-
-## 👨‍💻 12. Tác Giả & Lời Cảm Ơn (Authors & Acknowledgments)
+## 👨‍💻 8. Tác Giả & Lời Cảm Ơn (Authors & Acknowledgments)
 
 - **Tác giả**: Nguyễn Văn Khoa
 - **Repository**: [https://github.com/nvkhoa2003/MindX_Final_Project](https://github.com/nvkhoa2003/MindX_Final_Project)
-- **Đơn vị đào tạo**: **MindX Technology School** (Khóa học Data Analytics & Web Development)
+- **Đơn vị đào tạo**: **MindX Technology School** (Khóa học Data Engineer)
 - **Lời cảm ơn**: Xin chân thành cảm ơn các giảng viên và trợ giảng tại MindX đã tận tình hướng dẫn, hỗ trợ kỹ thuật và góp ý chuyên môn trong suốt quá trình hoàn thiện đồ án này.
 
 ---
