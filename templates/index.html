@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +10,9 @@
   <!-- Phông chữ Google Fonts: Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
 
   <!-- Bộ biểu tượng FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -29,7 +32,7 @@
       --bg-card-hover: rgba(31, 41, 55, 0.85);
       --bg-card-border: rgba(255, 255, 255, 0.08);
       --bg-input: #1F2937;
-      
+
       --text-primary: #F9FAFB;
       --text-secondary: #9CA3AF;
       --text-muted: #6B7280;
@@ -92,7 +95,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       line-height: 1.5;
-      background-image: 
+      background-image:
         radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
       background-attachment: fixed;
@@ -193,8 +196,15 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
     }
 
     .header-controls {
@@ -222,6 +232,112 @@
       color: var(--text-primary);
       border-color: var(--accent-primary);
       transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       THANH MENU ĐIỀU HƯỚNG PHÂN HỆ (APP NAVIGATION MENU TABS)
+       ========================================================================== */
+    .app-navigation-menu {
+      display: flex;
+      gap: 12px;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 8px 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-menu-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-menu-btn i {
+      font-size: 1.1rem;
+    }
+
+    .nav-menu-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-input);
+    }
+
+    .nav-menu-btn.active {
+      background: var(--accent-primary-gradient);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tab-view {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      animation: fadeInTab 0.3s ease-in-out;
+    }
+
+    @keyframes fadeInTab {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Khối lọc khoảng tháng trong phân hệ Xu hướng */
+    .month-range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-input);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .month-range-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .month-select {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      padding: 4px 6px;
+    }
+
+    .month-select option {
+      background: var(--bg-surface);
+      color: var(--text-primary);
     }
 
     /* ==========================================================================
@@ -372,10 +488,21 @@
       opacity: 0.8;
     }
 
-    .kpi-sales::before { background: var(--accent-primary-gradient); }
-    .kpi-profit::before { background: var(--accent-success-gradient); }
-    .kpi-shipping::before { background: var(--accent-warning-gradient); }
-    .kpi-orders::before { background: var(--accent-purple-gradient); }
+    .kpi-sales::before {
+      background: var(--accent-primary-gradient);
+    }
+
+    .kpi-profit::before {
+      background: var(--accent-success-gradient);
+    }
+
+    .kpi-shipping::before {
+      background: var(--accent-warning-gradient);
+    }
+
+    .kpi-orders::before {
+      background: var(--accent-purple-gradient);
+    }
 
     .kpi-header {
       display: flex;
@@ -402,10 +529,25 @@
       font-size: 1.2rem;
     }
 
-    .kpi-sales .kpi-icon-wrap { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
-    .kpi-profit .kpi-icon-wrap { background: rgba(16, 185, 129, 0.15); color: #10B981; }
-    .kpi-shipping .kpi-icon-wrap { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
-    .kpi-orders .kpi-icon-wrap { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
+    .kpi-sales .kpi-icon-wrap {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3B82F6;
+    }
+
+    .kpi-profit .kpi-icon-wrap {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+    }
+
+    .kpi-shipping .kpi-icon-wrap {
+      background: rgba(245, 158, 11, 0.15);
+      color: #F59E0B;
+    }
+
+    .kpi-orders .kpi-icon-wrap {
+      background: rgba(139, 92, 246, 0.15);
+      color: #8B5CF6;
+    }
 
     .kpi-value {
       font-size: 1.85rem;
@@ -463,6 +605,27 @@
       display: flex;
       flex-direction: column;
       position: relative;
+    }
+
+    #topProductsCard {
+      scroll-margin-top: 24px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-highlight {
+      animation: highlightPulse 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes highlightPulse {
+      0% {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4), 0 8px 30px rgba(59, 130, 246, 0.25);
+      }
+
+      100% {
+        border-color: var(--bg-card-border);
+        box-shadow: var(--shadow-sm);
+      }
     }
 
     .chart-header {
@@ -724,6 +887,201 @@
     }
 
     /* ==========================================================================
+       CSS BỔ SUNG: PHÂN HỆ XU HƯỚNG TĂNG TRƯỞNG CATEGORY & SUB-CATEGORY THEO THÁNG
+       ========================================================================== */
+    .cat-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cat-chip {
+      padding: 6px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition-fast);
+      user-select: none;
+    }
+
+    .cat-chip:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .cat-chip.active {
+      background: rgba(217, 70, 239, 0.2);
+      border-color: #D946EF;
+      color: #F5D0FE;
+      box-shadow: 0 2px 8px rgba(217, 70, 239, 0.25);
+    }
+
+    [data-theme="light"] .cat-chip.active {
+      background: rgba(217, 70, 239, 0.15);
+      border-color: #D946EF;
+      color: #A21CAF;
+    }
+
+    .cat-chip .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Bảng ma trận dữ liệu tăng trưởng */
+    .growth-table-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .growth-table-header-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .table-search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-input);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      width: 260px;
+    }
+
+    .table-search-box i {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .table-search-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      width: 100%;
+    }
+
+    .table-search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .growth-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .growth-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.84rem;
+    }
+
+    .growth-table th {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--bg-card-border);
+      white-space: nowrap;
+    }
+
+    .growth-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--bg-card-border);
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .growth-table tbody tr {
+      transition: var(--transition-fast);
+    }
+
+    .growth-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    [data-theme="light"] .growth-table tbody tr:hover {
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    .growth-table .num-cell {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .growth-table .cat-tag {
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(59, 130, 246, 0.12);
+      color: #60A5FA;
+    }
+
+    .growth-table .cat-tag.Furniture {
+      background: rgba(245, 158, 11, 0.12);
+      color: #FBBF24;
+    }
+
+    .growth-table .cat-tag.Office-Supplies {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34D399;
+    }
+
+    .growth-table .cat-tag.Technology {
+      background: rgba(139, 92, 246, 0.12);
+      color: #A78BFA;
+    }
+
+    .growth-pill-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    .growth-pill-note.positive {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+    }
+
+    .growth-pill-note.negative {
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+    }
+
+    /* ==========================================================================
        CHÂN TRANG (FOOTER)
        ========================================================================== */
     .dashboard-footer {
@@ -738,10 +1096,11 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="dashboard-container">
-    
+
     <!-- THANH TIÊU ĐỀ (HEADER) -->
     <header class="dashboard-header">
       <div class="brand-section">
@@ -767,270 +1126,541 @@
       </div>
     </header>
 
-    <!-- BỘ LỌC TOÀN CỤC (GLOBAL FILTERS) -->
-    <section class="filter-bar">
-      <div class="filter-group">
-        <label class="filter-label" for="filterYear">
-          <i class="fa-regular fa-calendar"></i> Năm Đặt Hàng
-        </label>
-        <select class="custom-select" id="filterYear">
-          <option value="all">Tất cả các năm (2011 - 2014)</option>
-          <option value="2011">Năm 2011</option>
-          <option value="2012">Năm 2012</option>
-          <option value="2013">Năm 2013</option>
-          <option value="2014">Năm 2014</option>
-        </select>
-      </div>
+    <!-- THANH ĐIỀU HƯỚNG MENU PHÂN HỆ (APP NAVIGATION TABS) -->
+    <nav class="app-navigation-menu">
+      <button class="nav-menu-btn active" id="tabOverviewBtn" data-tab="overview">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Tổng Quan Thị Trường & Logistics</span>
+      </button>
+      <button class="nav-menu-btn" id="tabGrowthBtn" data-tab="growth">
+        <i class="fa-solid fa-arrow-trend-up"></i>
+        <span>Phân Tích Xu Hướng Thị Trường</span>
+      </button>
+    </nav>
 
-      <div class="filter-group">
-        <label class="filter-label" for="filterRegion">
-          <i class="fa-solid fa-location-dot"></i> Khu Vực (Market)
-        </label>
-        <select class="custom-select" id="filterRegion">
-          <option value="all">Tất cả Khu vực (All Markets)</option>
-          <option value="APAC">APAC (Châu Á - Thái Bình Dương)</option>
-          <option value="EU">EU (Châu Âu)</option>
-          <option value="US">US (Hoa Kỳ)</option>
-          <option value="LATAM">LATAM (Mỹ Latinh)</option>
-          <option value="EMEA">EMEA (Trung Đông & Châu Phi)</option>
-          <option value="Africa">Africa (Châu Phi)</option>
-          <option value="Canada">Canada</option>
-        </select>
-      </div>
+    <!-- PHÂN HỆ 1: TỔNG QUAN THỊ TRƯỜNG & LOGISTICS -->
+    <div id="viewOverview" class="tab-view active">
 
-      <div class="filter-group">
-        <label class="filter-label" for="filterSegment">
-          <i class="fa-solid fa-users"></i> Phân Khúc Khách Hàng
-        </label>
-        <select class="custom-select" id="filterSegment">
-          <option value="all">Tất cả phân khúc</option>
-          <option value="Consumer">Consumer (Cá nhân)</option>
-          <option value="Corporate">Corporate (Doanh nghiệp)</option>
-          <option value="Home Office">Home Office (Văn phòng tại nhà)</option>
-        </select>
-      </div>
+      <!-- BỘ LỌC TOÀN CỤC (GLOBAL FILTERS) -->
+      <section class="filter-bar">
+        <div class="filter-group">
+          <label class="filter-label" for="filterYear">
+            <i class="fa-regular fa-calendar"></i> Năm Đặt Hàng
+          </label>
+          <select class="custom-select" id="filterYear">
+            <option value="all">Tất cả các năm (2011 - 2014)</option>
+            <option value="2011">Năm 2011</option>
+            <option value="2012">Năm 2012</option>
+            <option value="2013">Năm 2013</option>
+            <option value="2014">Năm 2014</option>
+          </select>
+        </div>
 
-      <div class="filter-group">
-        <label class="filter-label" for="filterCountry">
-          <i class="fa-solid fa-flag"></i> Quốc Gia Trọng Tâm
-        </label>
-        <select class="custom-select" id="filterCountry">
-          <option value="United States">United States (Mỹ)</option>
-          <option value="Australia">Australia</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="France">France</option>
-          <option value="Germany">Germany</option>
-          <option value="China">China</option>
-          <option value="India">India</option>
-          <option value="Brazil">Brazil</option>
-          <option value="Mexico">Mexico</option>
-          <option value="Japan">Japan</option>
-          <option value="Indonesia">Indonesia</option>
-          <option value="Vietnam">Vietnam</option>
-        </select>
-      </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterRegion">
+            <i class="fa-solid fa-location-dot"></i> Khu Vực (Market)
+          </label>
+          <select class="custom-select" id="filterRegion">
+            <option value="all">Tất cả Khu vực (All Markets)</option>
+            <option value="APAC">APAC (Châu Á - Thái Bình Dương)</option>
+            <option value="EU">EU (Châu Âu)</option>
+            <option value="US">US (Hoa Kỳ)</option>
+            <option value="LATAM">LATAM (Mỹ Latinh)</option>
+            <option value="EMEA">EMEA (Trung Đông & Châu Phi)</option>
+            <option value="Africa">Africa (Châu Phi)</option>
+            <option value="Canada">Canada</option>
+          </select>
+        </div>
 
-      <div class="filter-actions">
-        <button class="btn-action btn-primary" id="applyFiltersBtn">
-          <i class="fa-solid fa-filter"></i> Lọc Dữ Liệu
-        </button>
-        <button class="btn-action btn-secondary" id="resetFiltersBtn" title="Đặt lại mặc định">
-          <i class="fa-solid fa-rotate-left"></i>
-        </button>
-      </div>
-    </section>
+        <div class="filter-group">
+          <label class="filter-label" for="filterSegment">
+            <i class="fa-solid fa-users"></i> Phân Khúc Khách Hàng
+          </label>
+          <select class="custom-select" id="filterSegment">
+            <option value="all">Tất cả phân khúc</option>
+            <option value="Consumer">Consumer (Cá nhân)</option>
+            <option value="Corporate">Corporate (Doanh nghiệp)</option>
+            <option value="Home Office">Home Office (Văn phòng tại nhà)</option>
+          </select>
+        </div>
 
-    <!-- CÁC THẺ KPI TỔNG HỢP -->
-    <section class="kpi-grid">
-      <!-- KPI 1: TỔNG DOANH THU -->
-      <div class="kpi-card kpi-sales">
-        <div class="kpi-header">
-          <span class="kpi-title">Tổng Doanh Thu (Sales)</span>
-          <div class="kpi-icon-wrap">
-            <i class="fa-solid fa-dollar-sign"></i>
-          </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterCountry">
+            <i class="fa-solid fa-flag"></i> Quốc Gia Trọng Tâm
+          </label>
+          <select class="custom-select" id="filterCountry">
+            <option value="United States">United States (Mỹ)</option>
+            <option value="Australia">Australia</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+            <option value="China">China</option>
+            <option value="India">India</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Japan">Japan</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Vietnam">Vietnam</option>
+          </select>
         </div>
-        <div class="kpi-value" id="kpiSales">$12,642,500</div>
-        <div class="kpi-footer">
-          <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% YoY</span>
-          <span>51,290 đơn hàng</span>
-        </div>
-      </div>
 
-      <!-- KPI 2: TỔNG LỢI NHUẬN -->
-      <div class="kpi-card kpi-profit">
-        <div class="kpi-header">
-          <span class="kpi-title">Tổng Lợi Nhuận (Profit)</span>
-          <div class="kpi-icon-wrap">
-            <i class="fa-solid fa-chart-line"></i>
-          </div>
-        </div>
-        <div class="kpi-value" id="kpiProfit">$1,467,500</div>
-        <div class="kpi-footer">
-          <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> 11.6% Margin</span>
-          <span id="kpiProfitMargin">Tỷ suất LN cao</span>
-        </div>
-      </div>
-
-      <!-- KPI 3: CHI PHÍ VẬN CHUYỂN -->
-      <div class="kpi-card kpi-shipping">
-        <div class="kpi-header">
-          <span class="kpi-title">Chi Phí Vận Chuyển</span>
-          <div class="kpi-icon-wrap">
-            <i class="fa-solid fa-truck-fast"></i>
-          </div>
-        </div>
-        <div class="kpi-value" id="kpiShipping">$1,350,200</div>
-        <div class="kpi-footer">
-          <span class="kpi-badge neutral"><i class="fa-solid fa-boxes-packing"></i> 10.7% Sales</span>
-          <span>4 hình thức ship</span>
-        </div>
-      </div>
-
-      <!-- KPI 4: TỔNG ĐƠN HÀNG -->
-      <div class="kpi-card kpi-orders">
-        <div class="kpi-header">
-          <span class="kpi-title">Tổng Đơn Hàng / SL Bán</span>
-          <div class="kpi-icon-wrap">
-            <i class="fa-solid fa-box-open"></i>
-          </div>
-        </div>
-        <div class="kpi-value" id="kpiOrders">51,290</div>
-        <div class="kpi-footer">
-          <span class="kpi-badge positive"><i class="fa-solid fa-check"></i> 147 Quốc gia</span>
-          <span>Toàn cầu</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- PHẦN 1: BẢN ĐỒ NHIỆT TOÀN CẦU (CHOROPLETH MAP) -->
-    <section class="chart-card" id="mapCard">
-      <div class="chart-header">
-        <div class="chart-title-wrap">
-          <i class="fa-solid fa-map-location-dot chart-icon"></i>
-          <div>
-            <h2 class="chart-title">Bản Đồ Nhiệt Doanh Thu & Lợi Nhuận Toàn Cầu (Choropleth Map)</h2>
-            <p class="chart-subtitle">Phân bố doanh số theo từng quốc gia. Click trực tiếp vào quốc gia để xem Top sản phẩm tương ứng.</p>
-          </div>
-        </div>
-        <div class="chart-actions">
-          <div class="pill-tab-group" id="mapMetricToggle">
-            <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
-            <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="map-container" id="choroplethMap"></div>
-      <div class="map-hint">
-        <i class="fa-solid fa-hand-pointer"></i> Mẹo: Nhấp vào bất kỳ quốc gia nào trên bản đồ để tự động chuyển biểu đồ Top Sản phẩm!
-      </div>
-    </section>
-
-    <!-- PHẦN 2: TOP SẢN PHẨM BÁN CHẠY THEO QUỐC GIA ĐÃ CHỌN -->
-    <section class="chart-card">
-      <div class="chart-header">
-        <div class="chart-title-wrap">
-          <i class="fa-solid fa-trophy chart-icon" style="color: #F59E0B;"></i>
-          <div>
-            <h2 class="chart-title">
-              Top Sản Phẩm Bán Chạy Nhất Tại: 
-              <span class="selected-country-badge" id="currentCountryLabel">
-                <i class="fa-solid fa-flag"></i> United States
-              </span>
-            </h2>
-            <p class="chart-subtitle">Xếp hạng các sản phẩm có doanh số và số lượng cao nhất</p>
-          </div>
-        </div>
-        <div class="chart-actions">
-          <div class="pill-tab-group" id="topProductsLimitToggle">
-            <button class="pill-tab active" data-limit="5">Top 5</button>
-            <button class="pill-tab" data-limit="10">Top 10</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="chart-box">
-        <canvas id="topProductsChart"></canvas>
-      </div>
-    </section>
-
-    <!-- PHẦN 3: XU HƯỚNG DOANH THU & LỢI NHUẬN THEO NĂM CỦA CÁC QUỐC GIA -->
-    <section class="chart-card" id="yearlyTrendCard">
-      <div class="chart-header" style="flex-wrap: wrap; gap: 16px;">
-        <div class="chart-title-wrap">
-          <i class="fa-solid fa-arrow-trend-up chart-icon" style="color: #38BDF8;"></i>
-          <div>
-            <h2 class="chart-title">Xu Hướng Tăng Trưởng Doanh Thu Qua Các Năm (2011 - 2014)</h2>
-            <p class="chart-subtitle">So sánh biến động Doanh thu & Lợi nhuận và tốc độ tăng trưởng liên năm (YoY) giữa các thị trường trọng điểm</p>
-          </div>
-        </div>
-        <div class="chart-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-          <div class="pill-tab-group" id="trendMetricToggle">
-            <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
-            <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
-          </div>
-          <button class="btn-action btn-secondary" id="resetTrendCountriesBtn" style="padding: 6px 14px; font-size: 0.78rem;" title="Đặt lại về Top 5 thị trường lớn nhất">
-            <i class="fa-solid fa-arrows-rotate"></i> Top 5 Thị Trường
+        <div class="filter-actions">
+          <button class="btn-action btn-primary" id="applyFiltersBtn">
+            <i class="fa-solid fa-filter"></i> Lọc Dữ Liệu
+          </button>
+          <button class="btn-action btn-secondary" id="resetFiltersBtn" title="Đặt lại mặc định">
+            <i class="fa-solid fa-rotate-left"></i>
           </button>
         </div>
-      </div>
+      </section>
 
-      <!-- Thanh chọn nhanh các quốc gia đối soát (Chips) -->
-      <div class="trend-country-selector">
-        <span class="selector-label"><i class="fa-solid fa-sliders"></i> Chọn quốc gia đối soát:</span>
-        <div class="country-chips-wrap" id="trendCountryChips">
-          <!-- Các thẻ quốc gia được sinh tự động bằng JavaScript -->
+      <!-- CÁC THẺ KPI TỔNG HỢP -->
+      <section class="kpi-grid">
+        <!-- KPI 1: TỔNG DOANH THU -->
+        <div class="kpi-card kpi-sales">
+          <div class="kpi-header">
+            <span class="kpi-title">Tổng Doanh Thu (Sales)</span>
+            <div class="kpi-icon-wrap">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiSales">$12,642,500</div>
+          <div class="kpi-footer">
+            <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% YoY</span>
+            <span>51,290 đơn hàng</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Hàng thẻ thống kê nhanh mức tăng trưởng YoY -->
-      <div class="trend-summary-row" id="trendSummaryRow">
-        <!-- Các thẻ thống kê mini được sinh tự động bằng JavaScript -->
-      </div>
+        <!-- KPI 2: TỔNG LỢI NHUẬN -->
+        <div class="kpi-card kpi-profit">
+          <div class="kpi-header">
+            <span class="kpi-title">Tổng Lợi Nhuận (Profit)</span>
+            <div class="kpi-icon-wrap">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiProfit">$1,467,500</div>
+          <div class="kpi-footer">
+            <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> 11.6% Margin</span>
+            <span id="kpiProfitMargin">Tỷ suất LN cao</span>
+          </div>
+        </div>
 
-      <!-- Biểu đồ đường đa trục chính -->
-      <div class="chart-box" style="height: 380px;">
-        <canvas id="yearlyTrendChart"></canvas>
-      </div>
-    </section>
+        <!-- KPI 3: CHI PHÍ VẬN CHUYỂN -->
+        <div class="kpi-card kpi-shipping">
+          <div class="kpi-header">
+            <span class="kpi-title">Chi Phí Vận Chuyển</span>
+            <div class="kpi-icon-wrap">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiShipping">$1,350,200</div>
+          <div class="kpi-footer">
+            <span class="kpi-badge neutral"><i class="fa-solid fa-boxes-packing"></i> 10.7% Sales</span>
+            <span>4 hình thức ship</span>
+          </div>
+        </div>
 
-    <!-- PHẦN 4 & 5: CƠ CẤU DANH MỤC & PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
-    <section class="two-column-grid">
-      
-      <!-- BIỂU ĐỒ 4: CƠ CẤU DANH MỤC NGÀNH HÀNG -->
-      <div class="chart-card">
+        <!-- KPI 4: TỔNG ĐƠN HÀNG -->
+        <div class="kpi-card kpi-orders">
+          <div class="kpi-header">
+            <span class="kpi-title">Tổng Đơn Hàng / SL Bán</span>
+            <div class="kpi-icon-wrap">
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiOrders">51,290</div>
+          <div class="kpi-footer">
+            <span class="kpi-badge positive"><i class="fa-solid fa-check"></i> 147 Quốc gia</span>
+            <span>Toàn cầu</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHẦN 1: BẢN ĐỒ NHIỆT TOÀN CẦU (CHOROPLETH MAP) -->
+      <section class="chart-card" id="mapCard">
         <div class="chart-header">
           <div class="chart-title-wrap">
-            <i class="fa-solid fa-chart-pie chart-icon" style="color: #10B981;"></i>
+            <i class="fa-solid fa-map-location-dot chart-icon"></i>
             <div>
-              <h2 class="chart-title">Cơ Cấu Danh Mục Ngành Hàng (Category)</h2>
-              <p class="chart-subtitle">Tỷ trọng Doanh thu và Lợi nhuận theo Technology, Furniture & Office Supplies</p>
+              <h2 class="chart-title">Bản Đồ Nhiệt Doanh Thu & Lợi Nhuận Toàn Cầu (Choropleth Map)</h2>
+              <p class="chart-subtitle">Phân bố doanh số theo từng quốc gia. Click trực tiếp vào quốc gia để xem Top sản
+                phẩm tương ứng.</p>
+            </div>
+          </div>
+          <div class="chart-actions">
+            <div class="pill-tab-group" id="mapMetricToggle">
+              <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
+              <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
             </div>
           </div>
         </div>
-        <div class="chart-box">
-          <canvas id="categoryChart"></canvas>
-        </div>
-      </div>
 
-      <!-- BIỂU ĐỒ 5: PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
-      <div class="chart-card">
+        <div class="map-container" id="choroplethMap"></div>
+        <div class="map-hint">
+          <i class="fa-solid fa-hand-pointer"></i> Mẹo: Nhấp vào bất kỳ quốc gia nào trên bản đồ để tự động cuộn xuống
+          xem Top Sản phẩm!
+        </div>
+      </section>
+
+      <!-- PHẦN 2: TOP SẢN PHẨM BÁN CHẠY THEO QUỐC GIA ĐÃ CHỌN -->
+      <section class="chart-card" id="topProductsCard">
         <div class="chart-header">
           <div class="chart-title-wrap">
-            <i class="fa-solid fa-truck-ramp-box chart-icon" style="color: #8B5CF6;"></i>
+            <i class="fa-solid fa-trophy chart-icon" style="color: #F59E0B;"></i>
             <div>
-              <h2 class="chart-title">Phân Tích Chi Phí Vận Chuyển (Shipping Analysis)</h2>
-              <p class="chart-subtitle">Tổng chi phí và chi phí vận chuyển trung bình theo từng Ship Mode</p>
+              <h2 class="chart-title">
+                Top Sản Phẩm Bán Chạy Nhất Tại:
+                <span class="selected-country-badge" id="currentCountryLabel">
+                  <i class="fa-solid fa-flag"></i> United States
+                </span>
+              </h2>
+              <p class="chart-subtitle">Xếp hạng các sản phẩm có doanh số và số lượng cao nhất</p>
+            </div>
+          </div>
+          <div class="chart-actions">
+            <div class="pill-tab-group" id="topProductsLimitToggle">
+              <button class="pill-tab active" data-limit="5">Top 5</button>
+              <button class="pill-tab" data-limit="10">Top 10</button>
             </div>
           </div>
         </div>
-        <div class="chart-box">
-          <canvas id="shippingChart"></canvas>
-        </div>
-      </div>
 
-    </section>
+        <div class="chart-box">
+          <canvas id="topProductsChart"></canvas>
+        </div>
+      </section>
+
+      <!-- PHẦN 3 & 4: CƠ CẤU DANH MỤC & PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
+      <section class="two-column-grid">
+
+        <!-- BIỂU ĐỒ 3: CƠ CẤU DANH MỤC NGÀNH HÀNG -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title-wrap">
+              <i class="fa-solid fa-chart-pie chart-icon" style="color: #10B981;"></i>
+              <div>
+                <h2 class="chart-title">Cơ Cấu Danh Mục Ngành Hàng (Category)</h2>
+                <p class="chart-subtitle">Tỷ trọng Doanh thu và Lợi nhuận theo Technology, Furniture & Office Supplies
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+
+        <!-- BIỂU ĐỒ 4: PHÂN TÍCH CHI PHÍ VẬN CHUYỂN -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title-wrap">
+              <i class="fa-solid fa-truck-ramp-box chart-icon" style="color: #8B5CF6;"></i>
+              <div>
+                <h2 class="chart-title">Phân Tích Chi Phí Vận Chuyển (Shipping Analysis)</h2>
+                <p class="chart-subtitle">So sánh Tổng doanh thu, Tổng phí ship và Phí ship trung bình theo từng Ship
+                  Mode</p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="shippingChart"></canvas>
+          </div>
+        </div>
+
+      </section>
+
+    </div> <!-- ĐÓNG PHÂN HỆ 1: viewOverview -->
+
+    <!-- PHÂN HỆ 2: XU HƯỚNG TĂNG TRƯỞNG DOANH THU & LỢI NHUẬN (THEO NĂM / THEO THÁNG) -->
+    <div id="viewGrowth" class="tab-view" style="display: none;">
+      <section class="chart-card" id="yearlyTrendCard">
+        <div class="chart-header" style="flex-wrap: wrap; gap: 16px;">
+          <div class="chart-title-wrap">
+            <i class="fa-solid fa-arrow-trend-up chart-icon" style="color: #38BDF8;"></i>
+            <div>
+              <h2 class="chart-title" id="growthChartHeaderTitle">Xu Hướng Tăng Trưởng Thị Trường Theo Tháng (MoM)</h2>
+              <p class="chart-subtitle" id="growthChartHeaderSubtitle">
+                Phân tích chuỗi thời gian chi tiết theo từng tháng và so sánh tốc độ tăng trưởng giữa các thị trường
+                trọng điểm
+              </p>
+            </div>
+          </div>
+          <div class="chart-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <!-- Bộ lọc khoảng tháng: Từ tháng - Đến tháng -->
+            <div class="month-range-wrap" id="monthRangeContainer" style="display: flex;">
+              <span class="month-range-label"><i class="fa-solid fa-calendar-week"></i> Từ:</span>
+              <select class="month-select" id="filterStartMonth"></select>
+              <span class="month-range-label">Đến:</span>
+              <select class="month-select" id="filterEndMonth"></select>
+            </div>
+
+            <!-- Bộ chuyển đổi chỉ số: Doanh thu vs Lợi nhuận -->
+            <div class="pill-tab-group" id="trendMetricToggle">
+              <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
+              <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
+            </div>
+
+            <!-- Nút khôi phục Top 5 thị trường -->
+            <button class="btn-action btn-secondary" id="resetTrendCountriesBtn"
+              style="padding: 6px 14px; font-size: 0.78rem;" title="Đặt lại về Top 5 thị trường lớn nhất">
+              <i class="fa-solid fa-arrows-rotate"></i> Top 5 Thị Trường
+            </button>
+          </div>
+        </div>
+
+        <!-- Thanh chọn nhanh các quốc gia đối soát (Chips) -->
+        <div class="trend-country-selector">
+          <span class="selector-label"><i class="fa-solid fa-sliders"></i> Chọn quốc gia đối soát:</span>
+          <div class="country-chips-wrap" id="trendCountryChips">
+            <!-- Các thẻ quốc gia được sinh tự động bằng JavaScript -->
+          </div>
+        </div>
+
+        <!-- Hàng thẻ thống kê nhanh mức tăng trưởng -->
+        <div class="trend-summary-row" id="trendSummaryRow">
+          <!-- Các thẻ thống kê mini được sinh tự động bằng JavaScript -->
+        </div>
+
+        <!-- Biểu đồ đường đa trục chính -->
+        <div class="chart-box" style="height: 440px;">
+          <canvas id="yearlyTrendChart"></canvas>
+        </div>
+      </section>
+
+      <!-- PHẦN 2B: XU HƯỚNG TĂNG TRƯỞNG DOANH THU THEO THÁNG THEO CATEGORY & SUB-CATEGORY -->
+      <section class="chart-card" id="catMonthlyGrowthCard" style="margin-top: 12px;">
+        <div class="chart-header" style="flex-wrap: wrap; gap: 16px;">
+          <div class="chart-title-wrap">
+            <i class="fa-solid fa-layer-group chart-icon" style="color: #D946EF;"></i>
+            <div>
+              <h2 class="chart-title" id="catMonthlyChartTitle">
+                Xu Hướng Tăng Trưởng Doanh Thu Theo Category & Sub-Category
+              </h2>
+              <p class="chart-subtitle">
+                Phân tích chuỗi thời gian doanh số theo từng tháng & tỷ lệ tăng trưởng (% MoM) cho 3 ngành hàng và 17
+                nhóm sản phẩm
+              </p>
+            </div>
+          </div>
+          <div class="chart-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <!-- Bộ lọc chọn Sub-Category -->
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label for="filterCatMonthlySubcat"
+                style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">
+                <i class="fa-solid fa-tags"></i> Nhóm SP:
+              </label>
+              <select class="custom-select" id="filterCatMonthlySubcat"
+                style="padding: 6px 12px; font-size: 0.8rem; width: 175px;">
+                <option value="all">Tất cả Nhóm SP (17)</option>
+                <optgroup label="Technology">
+                  <option value="Accessories">Accessories</option>
+                  <option value="Copiers">Copiers</option>
+                  <option value="Machines">Machines</option>
+                  <option value="Phones">Phones</option>
+                </optgroup>
+                <optgroup label="Furniture">
+                  <option value="Bookcases">Bookcases</option>
+                  <option value="Chairs">Chairs</option>
+                  <option value="Furnishings">Furnishings</option>
+                  <option value="Tables">Tables</option>
+                </optgroup>
+                <optgroup label="Office Supplies">
+                  <option value="Appliances">Appliances</option>
+                  <option value="Art">Art</option>
+                  <option value="Binders">Binders</option>
+                  <option value="Envelopes">Envelopes</option>
+                  <option value="Fasteners">Fasteners</option>
+                  <option value="Labels">Labels</option>
+                  <option value="Paper">Paper</option>
+                  <option value="Storage">Storage</option>
+                  <option value="Supplies">Supplies</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <!-- Bộ chuyển đổi chỉ số: Doanh thu vs Lợi nhuận -->
+            <div class="pill-tab-group" id="catMonthlyMetricToggle">
+              <button class="pill-tab active" data-metric="sales">Doanh Thu ($)</button>
+              <button class="pill-tab" data-metric="profit">Lợi Nhuận ($)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thanh chọn nhanh Category Chips -->
+        <div class="trend-country-selector" style="margin-bottom: 18px;">
+          <span class="selector-label"><i class="fa-solid fa-shapes"></i> Chọn Ngành Hàng:</span>
+          <div class="cat-chips-wrap" id="catMonthlyChips">
+            <button class="cat-chip active" data-category="all">
+              <span class="chip-dot"></span> Tất Cả Ngành Hàng (Toàn Thị Trường)
+            </button>
+            <button class="cat-chip" data-category="Technology">
+              <span class="chip-dot" style="color: #8B5CF6;"></span> Technology (Công Nghệ)
+            </button>
+            <button class="cat-chip" data-category="Furniture">
+              <span class="chip-dot" style="color: #F59E0B;"></span> Furniture (Nội Thất)
+            </button>
+            <button class="cat-chip" data-category="Office Supplies">
+              <span class="chip-dot" style="color: #10B981;"></span> Office Supplies (Văn Phòng Phẩm)
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Thẻ KPI Tăng Trưởng Theo Tháng -->
+        <div class="kpi-grid" style="margin-bottom: 24px;">
+          <div class="kpi-card" style="border-top: 3px solid #D946EF;">
+            <div class="kpi-header">
+              <span class="kpi-title">Doanh Thu Tháng Gần Nhất</span>
+              <div class="kpi-icon-wrap" style="background: rgba(217, 70, 239, 0.15); color: #D946EF;">
+                <i class="fa-solid fa-calendar-check"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiCatMonthlyLatestVal">$503.2k</div>
+            <div class="kpi-footer">
+              <span class="kpi-badge negative" id="kpiCatMonthlyGrowthBadge">-9.4% MoM</span>
+              <span id="kpiCatMonthlyLatestPeriod">Tháng 12/2014</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid #38BDF8;">
+            <div class="kpi-header">
+              <span class="kpi-title">Doanh Thu TB / Tháng</span>
+              <div class="kpi-icon-wrap" style="background: rgba(56, 189, 248, 0.15); color: #38BDF8;">
+                <i class="fa-solid fa-chart-simple"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiCatMonthlyAvgVal">$263.4k</div>
+            <div class="kpi-footer">
+              <span class="kpi-badge neutral" id="kpiCatMonthlyTotalSum">Tổng $12.64M</span>
+              <span>Chu kỳ theo tháng</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid #F59E0B;">
+            <div class="kpi-header">
+              <span class="kpi-title">Tháng Đạt Đỉnh Doanh Thu</span>
+              <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiCatMonthlyPeakVal">$555.3k</div>
+            <div class="kpi-footer">
+              <span class="kpi-badge positive" id="kpiCatMonthlyPeakMonth"><i class="fa-solid fa-crown"></i> Thg
+                11/2014</span>
+              <span>Đỉnh cao nhất</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="border-top: 3px solid #10B981;">
+            <div class="kpi-header">
+              <span class="kpi-title">Nhóm SP Bứt Phá Nhất</span>
+              <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiCatMonthlyFastestName">Appliances</div>
+            <div class="kpi-footer">
+              <span class="kpi-badge positive" id="kpiCatMonthlyFastestGrowth"><i
+                  class="fa-solid fa-arrow-trend-up"></i> +754.1%</span>
+              <span id="kpiCatMonthlyFastestCat">Office Supplies</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biểu đồ 1: Combo Bar & Line Chart (Doanh thu tháng & Tỷ lệ tăng trưởng % MoM) -->
+        <div style="margin-bottom: 28px;">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h3
+              style="font-size: 0.96rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-chart-column" style="color: #D946EF;"></i>
+              <span id="catMonthlyComboTitle">Quy Mô & Tốc Độ Tăng Trưởng Theo Từng Tháng (% MoM)</span>
+            </h3>
+            <span style="font-size: 0.74rem; color: var(--text-muted);">
+              Cột (Bar) = Doanh thu ($) • Đường (Line) = Tốc độ tăng trưởng so với tháng trước (% MoM)
+            </span>
+          </div>
+          <div class="chart-box" style="height: 400px;">
+            <canvas id="catMonthlyComboChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Biểu đồ 2 & 3: So sánh 3 Category & Xếp hạng Sub-Category -->
+        <div class="two-column-grid" style="margin-bottom: 28px;">
+          <!-- 2A: So sánh đường xu hướng 3 Ngành Hàng -->
+          <div class="chart-card" style="padding: 18px; border-radius: var(--radius-md);">
+            <div class="chart-header" style="margin-bottom: 14px;">
+              <div class="chart-title-wrap">
+                <i class="fa-solid fa-chart-line chart-icon" style="color: #8B5CF6;"></i>
+                <div>
+                  <h4 class="chart-title" style="font-size: 0.95rem;">So Sánh Xu Hướng 3 Ngành Hàng Theo Tháng</h4>
+                  <p class="chart-subtitle">Technology, Furniture & Office Supplies qua các tháng</p>
+                </div>
+              </div>
+            </div>
+            <div class="chart-box" style="height: 310px;">
+              <canvas id="catMonthlyMultiLineChart"></canvas>
+            </div>
+          </div>
+
+          <!-- 2B: Xếp hạng Sub-Category -->
+          <div class="chart-card" style="padding: 18px; border-radius: var(--radius-md);">
+            <div class="chart-header" style="margin-bottom: 14px;">
+              <div class="chart-title-wrap">
+                <i class="fa-solid fa-ranking-star chart-icon" style="color: #F59E0B;"></i>
+                <div>
+                  <h4 class="chart-title" style="font-size: 0.95rem;">Top Nhóm Sản Phẩm (Sub-Category)</h4>
+                  <p class="chart-subtitle">Doanh số lũy kế và tốc độ tăng trưởng trong chu kỳ</p>
+                </div>
+              </div>
+            </div>
+            <div class="chart-box" style="height: 310px;">
+              <canvas id="catMonthlySubcatRankingChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bảng Ma trận Dữ liệu Chi tiết Sub-Category -->
+        <div class="growth-table-card">
+          <div class="growth-table-header-wrap">
+            <div>
+              <h4
+                style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-table-list" style="color: #38BDF8;"></i> Ma Trận Doanh Số & Tăng Trưởng Nhóm Sản
+                Phẩm
+              </h4>
+              <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">
+                Thống kê chi tiết doanh thu theo tháng và mức tăng trưởng liên tháng của 17 nhóm sản phẩm
+              </p>
+            </div>
+            <div class="table-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="catMonthlyTableSearch" class="table-search-input"
+                placeholder="Tìm nhóm sản phẩm..." />
+            </div>
+          </div>
+          <div class="growth-table-wrap">
+            <table class="growth-table">
+              <thead>
+                <tr>
+                  <th>Ngành Hàng</th>
+                  <th>Nhóm Sản Phẩm</th>
+                  <th style="text-align: right;">Tháng Đầu Kỳ</th>
+                  <th style="text-align: right;">Tháng Liền Trước</th>
+                  <th style="text-align: right;">Tháng Gần Nhất</th>
+                  <th style="text-align: right;">Tăng Trưởng MoM</th>
+                  <th style="text-align: right;">Tổng Doanh Thu</th>
+                  <th style="text-align: right;">Tăng Trưởng Toàn Kỳ</th>
+                </tr>
+              </thead>
+              <tbody id="catMonthlyTableBody">
+                <!-- Được render động bởi JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div> <!-- ĐÓNG PHÂN HỆ 2: viewGrowth -->
 
     <!-- CHÂN TRANG (FOOTER) -->
     <footer class="dashboard-footer">
@@ -1051,6 +1681,7 @@
        ========================================================================== */
     const State = {
       theme: 'dark',
+      currentTab: 'overview',
       filters: {
         year: 'all',
         region: 'all',
@@ -1059,14 +1690,24 @@
       },
       mapMetric: 'sales',
       topLimit: 5,
+      trendPeriod: 'month', // Cố định phân tích chuỗi thời gian theo Tháng (MoM)
+      trendStartMonth: '2011-01',
+      trendEndMonth: '2014-12',
       trendMetric: 'sales',
       trendCountries: ['United States', 'Australia', 'China', 'Germany', 'India'],
+      catMonthlyMetric: 'sales',
+      catMonthlyCategory: 'all',
+      catMonthlySubcategory: 'all',
+      catMonthlySearchQuery: '',
       apiBaseUrl: '/api/v1',
       charts: {
         topProducts: null,
         category: null,
         shipping: null,
-        yearlyTrend: null
+        yearlyTrend: null,
+        catMonthlyCombo: null,
+        catMonthlyMultiLine: null,
+        catMonthlySubcatRanking: null
       }
     };
 
@@ -1087,10 +1728,10 @@
       toggleBtn.addEventListener('click', () => {
         State.theme = State.theme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', State.theme);
-        toggleBtn.innerHTML = State.theme === 'dark' 
-          ? '<i class="fa-solid fa-moon"></i>' 
+        toggleBtn.innerHTML = State.theme === 'dark'
+          ? '<i class="fa-solid fa-moon"></i>'
           : '<i class="fa-solid fa-sun"></i>';
-        
+
         // Vẽ lại bản đồ và biểu đồ để khớp với giao diện Sáng / Tối
         renderChoroplethMap(window._cachedCountryData || getMockCountryData());
         updateChartJsThemes();
@@ -1101,7 +1742,15 @@
       const textColor = State.theme === 'dark' ? '#9CA3AF' : '#4B5563';
       const gridColor = State.theme === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)';
 
-      [State.charts.topProducts, State.charts.category, State.charts.shipping, State.charts.yearlyTrend].forEach(chart => {
+      [
+        State.charts.topProducts,
+        State.charts.category,
+        State.charts.shipping,
+        State.charts.yearlyTrend,
+        State.charts.catMonthlyCombo,
+        State.charts.catMonthlyMultiLine,
+        State.charts.catMonthlySubcatRanking
+      ].forEach(chart => {
         if (!chart) return;
         if (chart.options.scales?.x) {
           chart.options.scales.x.ticks.color = textColor;
@@ -1186,10 +1835,10 @@
     ];
 
     const getMockShipping = () => [
-      { ship_mode: "Standard Class", total_shipping_cost: 754200, avg_shipping_cost: 24.5, order_count: 30775 },
-      { ship_mode: "Second Class", total_shipping_cost: 282100, avg_shipping_cost: 27.4, order_count: 10309 },
-      { ship_mode: "First Class", total_shipping_cost: 218500, avg_shipping_cost: 29.1, order_count: 7505 },
-      { ship_mode: "Same Day", total_shipping_cost: 95400, avg_shipping_cost: 35.3, order_count: 2701 }
+      { ship_mode: "Standard Class", total_sales: 7578000, total_shipping_cost: 754200, avg_shipping_cost: 24.5, order_count: 30775 },
+      { ship_mode: "Second Class", total_sales: 2565000, total_shipping_cost: 282100, avg_shipping_cost: 27.4, order_count: 10309 },
+      { ship_mode: "First Class", total_sales: 1831000, total_shipping_cost: 218500, avg_shipping_cost: 29.1, order_count: 7505 },
+      { ship_mode: "Same Day", total_sales: 668500, total_shipping_cost: 95400, avg_shipping_cost: 35.3, order_count: 2701 }
     ];
 
     const getMockYearlyTrend = (countries, metric = 'sales') => {
@@ -1297,17 +1946,42 @@
       }
     };
 
-    const fetchYearlyTrend = async (countries, metric) => {
+    const fetchYearlyTrend = async (countries, metric, period = 'year', startMonth = null, endMonth = null) => {
       try {
         const params = new URLSearchParams();
         params.append('countries', countries.join(','));
         params.append('metric', metric);
+        params.append('period', period);
+        if (period === 'month') {
+          if (startMonth) params.append('start_month', startMonth);
+          if (endMonth) params.append('end_month', endMonth);
+        }
         if (State.filters.segment !== 'all') params.append('segment', State.filters.segment);
         const res = await fetch(`${State.apiBaseUrl}/yearly-sales-by-country?${params.toString()}`);
         if (!res.ok) throw new Error("API error");
         return await res.json();
       } catch (e) {
         return getMockYearlyTrend(countries, metric);
+      }
+    };
+
+    const fetchCatMonthlyGrowth = async (metric = 'sales', category = 'all', subCategory = 'all') => {
+      try {
+        const params = new URLSearchParams();
+        params.append('metric', metric);
+        if (category && category !== 'all') params.append('category', category);
+        if (subCategory && subCategory !== 'all') params.append('sub_category', subCategory);
+        if (State.trendStartMonth) params.append('start_month', State.trendStartMonth);
+        if (State.trendEndMonth) params.append('end_month', State.trendEndMonth);
+        if (State.filters.region !== 'all') params.append('region', State.filters.region);
+        if (State.filters.segment !== 'all') params.append('segment', State.filters.segment);
+
+        const res = await fetch(`${State.apiBaseUrl}/monthly-growth-by-category?${params.toString()}`);
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+      } catch (e) {
+        console.error("fetchCatMonthlyGrowth error:", e);
+        return null;
       }
     };
 
@@ -1322,7 +1996,7 @@
 
       const locations = countryData.map(d => d.country);
       const values = countryData.map(d => metric === 'sales' ? d.sales : d.profit);
-      const textHover = countryData.map(d => 
+      const textHover = countryData.map(d =>
         `<b>${d.country}</b><br>` +
         `• Sales: ${formatCurrency(d.sales)}<br>` +
         `• Profit: ${formatCurrency(d.profit)}<br>` +
@@ -1396,7 +2070,7 @@
           const clickedCountry = data.points[0].location;
           if (clickedCountry) {
             State.filters.country = clickedCountry;
-            
+
             // Đồng bộ dropdown chọn quốc gia nếu quốc gia có trong danh sách
             const countrySelect = document.getElementById('filterCountry');
             let matched = false;
@@ -1414,6 +2088,20 @@
             }
 
             updateTopProductsSection();
+
+            // Tự động cuộn mượt xuống khu vực Top Sản phẩm bán chạy nhất
+            const topProductsCard = document.getElementById('topProductsCard');
+            if (topProductsCard) {
+              topProductsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+              // Hiệu ứng phát sáng nhẹ báo hiệu đã chuyển sang quốc gia được chọn
+              topProductsCard.classList.remove('card-highlight');
+              void topProductsCard.offsetWidth; // Kích hoạt reflow trình duyệt
+              topProductsCard.classList.add('card-highlight');
+              setTimeout(() => {
+                topProductsCard.classList.remove('card-highlight');
+              }, 1600);
+            }
           }
         }
       });
@@ -1426,7 +2114,7 @@
       const ctx = document.getElementById('topProductsChart').getContext('2d');
       const isDark = State.theme === 'dark';
 
-      document.getElementById('currentCountryLabel').innerHTML = 
+      document.getElementById('currentCountryLabel').innerHTML =
         `<i class="fa-solid fa-flag"></i> ${State.filters.country}`;
 
       const labels = products.map(p => {
@@ -1567,6 +2255,7 @@
       const isDark = State.theme === 'dark';
 
       const labels = shippingData.map(s => s.ship_mode);
+      const totalSales = shippingData.map(s => s.total_sales || 0);
       const totalShipping = shippingData.map(s => s.total_shipping_cost);
       const avgShipping = shippingData.map(s => s.avg_shipping_cost);
 
@@ -1580,20 +2269,41 @@
           labels: labels,
           datasets: [
             {
+              type: 'bar',
+              label: 'Tổng Doanh Thu ($)',
+              data: totalSales,
+              backgroundColor: '#3B82F6',
+              borderRadius: 6,
+              barPercentage: 0.65,
+              categoryPercentage: 0.75,
+              order: 2,
+              yAxisID: 'y'
+            },
+            {
+              type: 'bar',
               label: 'Tổng Phí Ship ($)',
               data: totalShipping,
               backgroundColor: '#F59E0B',
-              borderRadius: 8,
+              borderRadius: 6,
+              barPercentage: 0.65,
+              categoryPercentage: 0.75,
+              order: 2,
               yAxisID: 'y'
             },
             {
               type: 'line',
-              label: 'Phí Ship Trung Bình ($/đơn)',
+              label: 'Phí Ship TB ($/đơn)',
               data: avgShipping,
               borderColor: '#EC4899',
               backgroundColor: '#EC4899',
-              borderWidth: 3,
-              pointRadius: 5,
+              borderWidth: 3.5,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              pointBackgroundColor: '#EC4899',
+              pointBorderColor: isDark ? '#111827' : '#FFFFFF',
+              pointBorderWidth: 2,
+              tension: 0.35,
+              order: 1, // Thứ tự ưu tiên thấp hơn để đường vẽ đè lên trên các cột bar
               yAxisID: 'y1'
             }
           ]
@@ -1601,6 +2311,10 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
           plugins: {
             legend: {
               position: 'top',
@@ -1615,7 +2329,12 @@
             },
             tooltip: {
               callbacks: {
-                label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
+                label: (ctx) => {
+                  if (ctx.dataset.yAxisID === 'y1') {
+                    return ` ${ctx.dataset.label}: $${Number(ctx.raw).toFixed(2)}/đơn`;
+                  }
+                  return ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`;
+                }
               }
             }
           },
@@ -1664,8 +2383,8 @@
     ];
 
     const ALL_AVAILABLE_TREND_COUNTRIES = [
-      "United States", "Australia", "China", "Germany", "India", 
-      "France", "United Kingdom", "Brazil", "Mexico", "Japan", 
+      "United States", "Australia", "China", "Germany", "India",
+      "France", "United Kingdom", "Brazil", "Mexico", "Japan",
       "Indonesia", "Vietnam"
     ];
 
@@ -1677,7 +2396,7 @@
       ALL_AVAILABLE_TREND_COUNTRIES.forEach((c, idx) => {
         const isActive = State.trendCountries.includes(c);
         const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
-        
+
         const chip = document.createElement('div');
         chip.className = `country-chip ${isActive ? 'active' : ''}`;
         chip.innerHTML = `
@@ -1705,25 +2424,48 @@
       const ctx = canvas.getContext('2d');
       const isDark = State.theme === 'dark';
       const metric = State.trendMetric;
+      const isMonthly = (trendData.period_type === 'month') || State.trendPeriod === 'month';
+      const rawPeriods = trendData.periods || trendData.years || [2011, 2012, 2013, 2014];
+
+      // Định dạng nhãn trục X: Năm 2011 hoặc T01/11
+      const formattedLabels = rawPeriods.map(p => {
+        const str = String(p);
+        if (str.includes('-')) {
+          const [y, m] = str.split('-');
+          return `T${m}/${y.slice(2)}`;
+        }
+        return 'Năm ' + str;
+      });
+
+      // Cập nhật tiêu đề thẻ biểu đồ động
+      const headerTitle = document.getElementById('growthChartHeaderTitle');
+      const headerSubtitle = document.getElementById('growthChartHeaderSubtitle');
+      const metricText = metric === 'sales' ? 'Doanh Thu' : 'Lợi Nhuận';
+      if (headerTitle && headerSubtitle) {
+        headerTitle.textContent = `Xu Hướng Tăng Trưởng ${metricText} Theo Tháng (${State.trendStartMonth} - ${State.trendEndMonth})`;
+        headerSubtitle.textContent = `Phân tích chuỗi thời gian chi tiết theo từng tháng và so sánh tốc độ tăng trưởng MoM của các thị trường trọng điểm`;
+      }
 
       // 1. Hiển thị các thẻ thống kê nhanh (Mini Summary Cards)
       const summaryRow = document.getElementById('trendSummaryRow');
       if (summaryRow && trendData.countries_data) {
         summaryRow.innerHTML = trendData.countries_data.map((item, idx) => {
           const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
-          const isGrowthPos = item.yoy_growth_percent >= 0;
+          const growthVal = item.growth_percent !== undefined ? item.growth_percent : item.yoy_growth_percent;
+          const isGrowthPos = growthVal >= 0;
+          const periodLabel = isMonthly ? `Kỳ lọc (${rawPeriods.length} tháng)` : 'Tổng 4 năm';
           return `
             <div class="trend-mini-card" style="border-left-color: ${color};">
               <div class="trend-mini-header">
                 <span>${item.country}</span>
                 <span class="trend-badge ${isGrowthPos ? 'positive' : 'negative'}">
                   <i class="fa-solid ${isGrowthPos ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
-                  ${isGrowthPos ? '+' : ''}${item.yoy_growth_percent}%
+                  ${isGrowthPos ? '+' : ''}${growthVal}%
                 </span>
               </div>
               <div class="trend-mini-val">${formatCurrency(item.total)}</div>
               <div class="trend-mini-footer">
-                <span>Tổng 4 năm (${metric === 'sales' ? 'Doanh thu' : 'Lợi nhuận'})</span>
+                <span>${periodLabel} (${metric === 'sales' ? 'Doanh thu' : 'Lợi nhuận'})</span>
               </div>
             </div>
           `;
@@ -1733,14 +2475,15 @@
       // 2. Xây dựng tập dữ liệu cho Chart.js
       const datasets = (trendData.countries_data || []).map((item, idx) => {
         const color = TREND_COLOR_PALETTE[idx % TREND_COLOR_PALETTE.length];
+        const dataValues = item.values || item.yearly_values || [];
         return {
           label: item.country,
-          data: item.yearly_values,
+          data: dataValues,
           borderColor: color,
           backgroundColor: color,
           borderWidth: 2.8,
           tension: 0.35,
-          pointRadius: 4.5,
+          pointRadius: isMonthly && rawPeriods.length > 24 ? 2.5 : 4.5,
           pointHoverRadius: 7,
           pointBackgroundColor: color,
           pointBorderColor: isDark ? '#111827' : '#FFFFFF',
@@ -1756,7 +2499,7 @@
       State.charts.yearlyTrend = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: (trendData.years || [2011, 2012, 2013, 2014]).map(y => 'Năm ' + y),
+          labels: formattedLabels,
           datasets: datasets
         },
         options: {
@@ -1787,9 +2530,10 @@
           scales: {
             x: {
               grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
-              ticks: { 
+              ticks: {
                 color: isDark ? '#9CA3AF' : '#4B5563',
-                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 }
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: isMonthly && rawPeriods.length > 24 ? 10 : 12 },
+                maxRotation: isMonthly ? 45 : 0
               }
             },
             y: {
@@ -1805,8 +2549,453 @@
     };
 
     const updateYearlyTrendSection = async () => {
-      const data = await fetchYearlyTrend(State.trendCountries, State.trendMetric);
+      const data = await fetchYearlyTrend(
+        State.trendCountries,
+        State.trendMetric,
+        State.trendPeriod,
+        State.trendStartMonth,
+        State.trendEndMonth
+      );
       renderYearlyTrendChart(data);
+    };
+
+    /* ==========================================================================
+       PHẦN 2B: XU HƯỚNG TĂNG TRƯỞNG DOANH THU THEO THÁNG THEO CATEGORY & SUB-CATEGORY
+       ========================================================================== */
+    window._cachedCatMonthlyData = null;
+
+    const renderCatMonthlyGrowthSection = (data) => {
+      window._cachedCatMonthlyData = data;
+      if (!data) return;
+
+      const isDark = State.theme === 'dark';
+      const metric = State.catMonthlyMetric;
+      const valFormatter = metric === 'quantity' ? formatNumber : formatCurrency;
+      const kpis = data.summary_kpis || {};
+
+      // 1. Cập nhật 4 thẻ KPI Tăng trưởng theo tháng
+      const latestVal = kpis.latest_value || 0;
+      const latestGrowth = kpis.latest_growth || 0;
+      const avgVal = kpis.avg_monthly_value || 0;
+      const totalVal = kpis.total_value || 0;
+      const peakVal = kpis.peak_value || 0;
+      const peakMonth = kpis.peak_month || 'N/A';
+      const latestMonth = kpis.latest_month || 'N/A';
+
+      const elLatestVal = document.getElementById('kpiCatMonthlyLatestVal');
+      const elGrowthBadge = document.getElementById('kpiCatMonthlyGrowthBadge');
+      const elLatestPeriod = document.getElementById('kpiCatMonthlyLatestPeriod');
+      const elAvgVal = document.getElementById('kpiCatMonthlyAvgVal');
+      const elTotalSum = document.getElementById('kpiCatMonthlyTotalSum');
+      const elPeakVal = document.getElementById('kpiCatMonthlyPeakVal');
+      const elPeakMonth = document.getElementById('kpiCatMonthlyPeakMonth');
+      const elFastestName = document.getElementById('kpiCatMonthlyFastestName');
+      const elFastestGrowth = document.getElementById('kpiCatMonthlyFastestGrowth');
+      const elFastestCat = document.getElementById('kpiCatMonthlyFastestCat');
+
+      if (elLatestVal) elLatestVal.textContent = valFormatter(latestVal);
+      if (elGrowthBadge) {
+        const sign = latestGrowth > 0 ? '+' : '';
+        elGrowthBadge.className = `kpi-badge ${latestGrowth >= 0 ? 'positive' : 'negative'}`;
+        elGrowthBadge.innerHTML = `<i class="fa-solid fa-arrow-trend-${latestGrowth >= 0 ? 'up' : 'down'}"></i> ${sign}${latestGrowth}% MoM`;
+      }
+      if (elLatestPeriod) {
+        const parts = latestMonth.split('-');
+        elLatestPeriod.textContent = parts.length === 2 ? `Tháng ${parts[1]}/${parts[0]}` : latestMonth;
+      }
+      if (elAvgVal) elAvgVal.textContent = valFormatter(avgVal);
+      if (elTotalSum) elTotalSum.textContent = `Tổng ${valFormatter(totalVal)}`;
+      if (elPeakVal) elPeakVal.textContent = valFormatter(peakVal);
+      if (elPeakMonth) {
+        const pParts = peakMonth.split('-');
+        const pTxt = pParts.length === 2 ? `Thg ${pParts[1]}/${pParts[0]}` : peakMonth;
+        elPeakMonth.innerHTML = `<i class="fa-solid fa-crown"></i> ${pTxt}`;
+      }
+
+      const fastest = kpis.fastest_subcategory || {};
+      if (elFastestName) elFastestName.textContent = fastest.name || 'N/A';
+      if (elFastestGrowth) {
+        const sign = (fastest.growth || 0) > 0 ? '+' : '';
+        elFastestGrowth.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${sign}${fastest.growth || 0}%`;
+      }
+      if (elFastestCat) elFastestCat.textContent = fastest.category || '';
+
+      // 2. Cập nhật tiêu đề Combo Chart
+      const comboTitle = document.getElementById('catMonthlyComboTitle');
+      if (comboTitle) {
+        let titleName = 'Toàn Thị Trường';
+        if (State.catMonthlySubcategory && State.catMonthlySubcategory !== 'all') {
+          titleName = State.catMonthlySubcategory;
+        } else if (State.catMonthlyCategory && State.catMonthlyCategory !== 'all') {
+          titleName = State.catMonthlyCategory;
+        }
+        const mLabel = metric === 'sales' ? 'Doanh Thu' : 'Lợi Nhuận';
+        comboTitle.textContent = `Quy Mô & Tốc Độ Tăng Trưởng ${mLabel} Theo Từng Tháng (% MoM) - ${titleName}`;
+      }
+
+      // 3. Vẽ 3 Biểu đồ & Bảng dữ liệu
+      renderCatMonthlyComboChart(data);
+      renderCatMonthlyMultiLineChart(data);
+      renderCatMonthlySubcatRankingChart(data);
+      renderCatMonthlyTable(data);
+    };
+
+    /* BIỂU ĐỒ 1: COMBO BAR & LINE CHART (DOANH THU THÁNG + % MOM GROWTH) */
+    const renderCatMonthlyComboChart = (data) => {
+      const canvas = document.getElementById('catMonthlyComboChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const isDark = State.theme === 'dark';
+      const metric = State.catMonthlyMetric;
+      const valFormatter = metric === 'quantity' ? formatNumber : formatCurrency;
+      const metricLabel = metric === 'sales' ? 'Doanh Thu' : (metric === 'profit' ? 'Lợi Nhuận' : 'Số Lượng');
+
+      const rawMonths = data.months || [];
+      const labels = rawMonths.map(m => {
+        const parts = m.split('-');
+        return parts.length === 2 ? `T${parts[1]}/${parts[0].slice(2)}` : m;
+      });
+
+      const trend = data.total_trend || {};
+      const barValues = trend.values || [];
+      const growthRates = trend.growth_rates || [];
+
+      if (State.charts.catMonthlyCombo) {
+        State.charts.catMonthlyCombo.destroy();
+      }
+
+      State.charts.catMonthlyCombo = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              type: 'bar',
+              label: `${metricLabel} (Trục Trái)`,
+              data: barValues,
+              backgroundColor: '#D946EF',
+              hoverBackgroundColor: '#C026D3',
+              borderRadius: 4,
+              barPercentage: rawMonths.length > 24 ? 0.65 : 0.48,
+              order: 2,
+              yAxisID: 'y'
+            },
+            {
+              type: 'line',
+              label: 'Tăng Trưởng % MoM (Trục Phải)',
+              data: growthRates,
+              borderColor: '#0284C7',
+              backgroundColor: '#0284C7',
+              borderWidth: 2.8,
+              tension: 0.25,
+              pointRadius: rawMonths.length > 24 ? 3 : 5,
+              pointHoverRadius: 7,
+              pointBackgroundColor: '#0284C7',
+              pointBorderColor: isDark ? '#111827' : '#FFFFFF',
+              pointBorderWidth: 2,
+              order: 1,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '700', size: 12 },
+                boxWidth: 14,
+                boxHeight: 14,
+                useBorderRadius: true,
+                borderRadius: 4,
+                padding: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  if (context.dataset.type === 'line') {
+                    const raw = context.raw;
+                    return raw === null ? ' Tháng gốc (không có kỳ trước)' : ` Tăng trưởng MoM: ${raw > 0 ? '+' : ''}${raw}% so với tháng trước`;
+                  }
+                  return ` ${metricLabel}: ${valFormatter(context.raw)}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: rawMonths.length > 24 ? 10 : 11 },
+                maxRotation: 45
+              }
+            },
+            y: {
+              position: 'left',
+              grid: { color: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (v) => valFormatter(v)
+              },
+              title: {
+                display: true,
+                text: `${metricLabel} (${metric === 'quantity' ? 'Units' : '$'})`,
+                color: isDark ? '#9CA3AF' : '#6B7280',
+                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }
+              }
+            },
+            y1: {
+              position: 'right',
+              grid: { display: false },
+              ticks: {
+                color: '#38BDF8',
+                font: { weight: '700' },
+                callback: (v) => `${v > 0 ? '+' : ''}${v}%`
+              },
+              title: {
+                display: true,
+                text: 'Tăng trưởng (% MoM)',
+                color: '#38BDF8',
+                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }
+              }
+            }
+          }
+        }
+      });
+    };
+
+    /* BIỂU ĐỒ 2A: SO SÁNH XU HƯỚNG 3 NGÀNH HÀNG THEO THÁNG */
+    const renderCatMonthlyMultiLineChart = (data) => {
+      const canvas = document.getElementById('catMonthlyMultiLineChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const isDark = State.theme === 'dark';
+      const metric = State.catMonthlyMetric;
+      const valFormatter = metric === 'quantity' ? formatNumber : formatCurrency;
+
+      const rawMonths = data.months || [];
+      const labels = rawMonths.map(m => {
+        const parts = m.split('-');
+        return parts.length === 2 ? `T${parts[1]}/${parts[0].slice(2)}` : m;
+      });
+
+      const catColors = {
+        'Technology': '#8B5CF6',
+        'Furniture': '#F59E0B',
+        'Office Supplies': '#10B981'
+      };
+
+      const datasets = (data.category_trends || []).map(cat => {
+        const color = catColors[cat.category] || '#3B82F6';
+        return {
+          label: `${cat.category} (${valFormatter(cat.total)})`,
+          data: cat.values,
+          borderColor: color,
+          backgroundColor: color,
+          borderWidth: 2.5,
+          tension: 0.3,
+          pointRadius: rawMonths.length > 24 ? 2 : 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: color,
+          pointBorderColor: isDark ? '#111827' : '#FFFFFF',
+          pointBorderWidth: 1.5,
+          fill: false
+        };
+      });
+
+      if (State.charts.catMonthlyMultiLine) {
+        State.charts.catMonthlyMultiLine.destroy();
+      }
+
+      State.charts.catMonthlyMultiLine = new Chart(ctx, {
+        type: 'line',
+        data: { labels: labels, datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: isDark ? '#E5E7EB' : '#374151',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 11 },
+                boxWidth: 12,
+                boxHeight: 12,
+                useBorderRadius: true,
+                borderRadius: 3
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label.split(' (')[0]}: ${valFormatter(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+              ticks: { color: isDark ? '#9CA3AF' : '#4B5563', font: { weight: '600' }, maxRotation: 45 }
+            },
+            y: {
+              grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (v) => valFormatter(v)
+              }
+            }
+          }
+        }
+      });
+    };
+
+    /* BIỂU ĐỒ 2B: XẾP HẠNG SUB-CATEGORY THEO DOANH SỐ / TĂNG TRƯỞNG */
+    const renderCatMonthlySubcatRankingChart = (data) => {
+      const canvas = document.getElementById('catMonthlySubcatRankingChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const isDark = State.theme === 'dark';
+      const metric = State.catMonthlyMetric;
+      const valFormatter = metric === 'quantity' ? formatNumber : formatCurrency;
+
+      let subList = [...(data.subcategory_trends || data.all_subcategory_trends || [])];
+      // Sắp xếp theo tổng doanh số chu kỳ
+      subList.sort((a, b) => b.total - a.total);
+      const topList = subList.slice(0, 8);
+
+      const labels = topList.map(s => s.sub_category);
+      const values = topList.map(s => s.total);
+
+      if (State.charts.catMonthlySubcatRanking) {
+        State.charts.catMonthlySubcatRanking.destroy();
+      }
+
+      State.charts.catMonthlySubcatRanking = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Tổng Doanh Thu Chu Kỳ',
+            data: values,
+            backgroundColor: values.map((_, i) => i === 0 ? '#10B981' : (i < 3 ? '#3B82F6' : '#8B5CF6')),
+            borderRadius: 5,
+            barPercentage: 0.65
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` Tổng ${metric === 'sales' ? 'doanh thu' : 'lợi nhuận'}: ${valFormatter(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+              ticks: {
+                color: isDark ? '#9CA3AF' : '#4B5563',
+                callback: (v) => valFormatter(v)
+              }
+            },
+            y: {
+              grid: { display: false },
+              ticks: {
+                color: isDark ? '#E5E7EB' : '#1F2937',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 11 }
+              }
+            }
+          }
+        }
+      });
+    };
+
+    /* BẢNG MA TRẬN DỮ LIỆU TĂNG TRƯỞNG SUB-CATEGORY THEO THÁNG */
+    const renderCatMonthlyTable = (data) => {
+      const tbody = document.getElementById('catMonthlyTableBody');
+      if (!tbody) return;
+
+      const metric = State.catMonthlyMetric;
+      const valFormatter = metric === 'quantity' ? formatNumber : formatCurrency;
+      let list = data.all_subcategory_trends || [];
+
+      // Lọc theo Category đã chọn
+      if (State.catMonthlyCategory && State.catMonthlyCategory !== 'all') {
+        list = list.filter(s => s.category.toLowerCase() === State.catMonthlyCategory.toLowerCase());
+      }
+
+      // Lọc theo Sub-Category đã chọn
+      if (State.catMonthlySubcategory && State.catMonthlySubcategory !== 'all') {
+        list = list.filter(s => s.sub_category.toLowerCase() === State.catMonthlySubcategory.toLowerCase());
+      }
+
+      // Lọc theo ô tìm kiếm
+      if (State.catMonthlySearchQuery) {
+        const q = State.catMonthlySearchQuery.toLowerCase();
+        list = list.filter(s => s.sub_category.toLowerCase().includes(q) || s.category.toLowerCase().includes(q));
+      }
+
+      if (list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 24px; color: var(--text-muted);">
+              Không tìm thấy nhóm sản phẩm phù hợp với bộ lọc.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = list.map(item => {
+        const catCleanClass = item.category.replace(/\s+/g, '-');
+        const vals = item.values || [];
+        const growths = item.growth_rates || [];
+        const n = vals.length;
+
+        const firstVal = n > 0 ? vals[0] : 0;
+        const prevVal = n > 1 ? vals[n - 2] : 0;
+        const lastVal = n > 0 ? vals[n - 1] : 0;
+        const lastMoM = growths.length > 0 ? growths[n - 1] : null;
+        const ovG = item.overall_growth;
+
+        const renderMoMBadge = (g) => {
+          if (g === null || g === undefined) return '<span style="color: var(--text-muted);">-</span>';
+          const pos = g >= 0;
+          return `<span class="growth-pill-note ${pos ? 'positive' : 'negative'}">${pos ? '+' : ''}${g}%</span>`;
+        };
+
+        return `
+          <tr>
+            <td><span class="cat-tag ${catCleanClass}">${item.category}</span></td>
+            <td><strong>${item.sub_category}</strong></td>
+            <td class="num-cell">${valFormatter(firstVal)}</td>
+            <td class="num-cell">${valFormatter(prevVal)}</td>
+            <td class="num-cell" style="font-weight: 700;">${valFormatter(lastVal)}</td>
+            <td class="num-cell">${renderMoMBadge(lastMoM)}</td>
+            <td class="num-cell" style="font-weight: 800; color: var(--accent-primary);">${valFormatter(item.total)}</td>
+            <td class="num-cell">
+              <span class="trend-badge ${ovG >= 0 ? 'positive' : 'negative'}" style="font-size: 0.76rem;">
+                <i class="fa-solid fa-arrow-trend-${ovG >= 0 ? 'up' : 'down'}"></i> ${ovG >= 0 ? '+' : ''}${ovG}%
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    };
+
+    const updateCatMonthlyGrowthSection = async () => {
+      const data = await fetchCatMonthlyGrowth(State.catMonthlyMetric, State.catMonthlyCategory, State.catMonthlySubcategory);
+      renderCatMonthlyGrowthSection(data);
     };
 
     /* ==========================================================================
@@ -1849,12 +3038,94 @@
       // 6. Cập nhật biểu đồ Chi phí vận chuyển
       const shipData = await fetchShippingAnalysis();
       renderShippingChart(shipData);
+
+      // 7. Cập nhật phân hệ Xu hướng Doanh thu theo tháng (Category & Sub-Category)
+      await updateCatMonthlyGrowthSection();
+    };
+
+    /* ==========================================================================
+       KHỞI TẠO DANH SÁCH THÁNG & BỘ CHUYỂN ĐỔI TAB PHÂN HỆ
+       ========================================================================== */
+    const initMonthOptions = () => {
+      const startSelect = document.getElementById('filterStartMonth');
+      const endSelect = document.getElementById('filterEndMonth');
+      if (!startSelect || !endSelect) return;
+
+      startSelect.innerHTML = '';
+      endSelect.innerHTML = '';
+
+      for (let y = 2011; y <= 2014; y++) {
+        for (let m = 1; m <= 12; m++) {
+          const mm = m < 10 ? '0' + m : '' + m;
+          const val = `${y}-${mm}`;
+          const label = `Thg ${mm}/${y}`;
+
+          startSelect.add(new Option(label, val, false, val === '2011-01'));
+          endSelect.add(new Option(label, val, false, val === '2014-12'));
+        }
+      }
+    };
+
+    const switchTab = (tabName) => {
+      State.currentTab = tabName;
+      const isOverview = tabName === 'overview';
+
+      document.getElementById('tabOverviewBtn').classList.toggle('active', isOverview);
+      document.getElementById('tabGrowthBtn').classList.toggle('active', !isOverview);
+
+      document.getElementById('viewOverview').style.display = isOverview ? 'flex' : 'none';
+      document.getElementById('viewGrowth').style.display = !isOverview ? 'flex' : 'none';
+
+      // Resize biểu đồ Chart.js khi hiển thị tab để đảm bảo co giãn mượt mà
+      if (!isOverview) {
+        setTimeout(() => {
+          if (State.charts.yearlyTrend) {
+            State.charts.yearlyTrend.resize();
+          } else {
+            updateYearlyTrendSection();
+          }
+
+          if (State.charts.catMonthlyCombo) State.charts.catMonthlyCombo.resize();
+          if (State.charts.catMonthlyMultiLine) State.charts.catMonthlyMultiLine.resize();
+          if (State.charts.catMonthlySubcatRanking) State.charts.catMonthlySubcatRanking.resize();
+
+          if (!window._cachedCatMonthlyData) {
+            updateCatMonthlyGrowthSection();
+          }
+        }, 50);
+      }
     };
 
     /* ==========================================================================
        LẮNG NGHE SỰ KIỆN & GẮN BỘ ĐIỀU KHIỂN (EVENT LISTENERS)
        ========================================================================== */
     const initEventListeners = () => {
+      // Chuyển đổi tab trên Menu điều hướng
+      document.getElementById('tabOverviewBtn').addEventListener('click', () => switchTab('overview'));
+      document.getElementById('tabGrowthBtn').addEventListener('click', () => switchTab('growth'));
+
+      // Thay đổi Tháng bắt đầu
+      document.getElementById('filterStartMonth').addEventListener('change', async (e) => {
+        State.trendStartMonth = e.target.value;
+        if (State.trendStartMonth > State.trendEndMonth) {
+          document.getElementById('filterEndMonth').value = State.trendStartMonth;
+          State.trendEndMonth = State.trendStartMonth;
+        }
+        await updateYearlyTrendSection();
+        await updateCatMonthlyGrowthSection();
+      });
+
+      // Thay đổi Tháng kết thúc
+      document.getElementById('filterEndMonth').addEventListener('change', async (e) => {
+        State.trendEndMonth = e.target.value;
+        if (State.trendEndMonth < State.trendStartMonth) {
+          document.getElementById('filterStartMonth').value = State.trendEndMonth;
+          State.trendStartMonth = State.trendEndMonth;
+        }
+        await updateYearlyTrendSection();
+        await updateCatMonthlyGrowthSection();
+      });
+
       // Nút Áp dụng bộ lọc
       document.getElementById('applyFiltersBtn').addEventListener('click', () => {
         State.filters.year = document.getElementById('filterYear').value;
@@ -1921,6 +3192,67 @@
         await updateYearlyTrendSection();
       });
 
+      // BỘ ĐIỀU KHIỂN RIÊNG CHO PHÂN HỆ CATEGORY & SUB-CATEGORY THEO THÁNG:
+      // 1. Chọn Category Chips
+      document.querySelectorAll('#catMonthlyChips .cat-chip').forEach(chip => {
+        chip.addEventListener('click', async (e) => {
+          document.querySelectorAll('#catMonthlyChips .cat-chip').forEach(c => c.classList.remove('active'));
+          const btn = e.currentTarget;
+          btn.classList.add('active');
+          State.catMonthlyCategory = btn.dataset.category;
+
+          // Cập nhật các lựa chọn tương ứng trong dropdown Sub-Category
+          const subcatSelect = document.getElementById('filterCatMonthlySubcat');
+          if (subcatSelect) {
+            Array.from(subcatSelect.options).forEach(opt => {
+              if (opt.value === 'all') return;
+              const parentGroup = opt.parentElement;
+              if (State.catMonthlyCategory === 'all') {
+                opt.style.display = '';
+                if (parentGroup && parentGroup.tagName === 'OPTGROUP') parentGroup.style.display = '';
+              } else {
+                const match = parentGroup && parentGroup.label && parentGroup.label.toLowerCase().includes(State.catMonthlyCategory.toLowerCase());
+                opt.style.display = match ? '' : 'none';
+                if (parentGroup && parentGroup.tagName === 'OPTGROUP') {
+                  parentGroup.style.display = match ? '' : 'none';
+                }
+              }
+            });
+            subcatSelect.value = 'all';
+            State.catMonthlySubcategory = 'all';
+          }
+
+          await updateCatMonthlyGrowthSection();
+        });
+      });
+
+      // 2. Chọn Sub-Category dropdown
+      document.getElementById('filterCatMonthlySubcat').addEventListener('change', async (e) => {
+        State.catMonthlySubcategory = e.target.value;
+        await updateCatMonthlyGrowthSection();
+      });
+
+      // 3. Chuyển đổi metric (Doanh thu vs Lợi nhuận)
+      document.querySelectorAll('#catMonthlyMetricToggle .pill-tab').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          document.querySelectorAll('#catMonthlyMetricToggle .pill-tab').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          State.catMonthlyMetric = e.currentTarget.dataset.metric;
+          await updateCatMonthlyGrowthSection();
+        });
+      });
+
+      // 4. Tìm kiếm nhanh trong bảng ma trận Sub-Category
+      const searchInput = document.getElementById('catMonthlyTableSearch');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          State.catMonthlySearchQuery = e.target.value;
+          if (window._cachedCatMonthlyData) {
+            renderCatMonthlyTable(window._cachedCatMonthlyData);
+          }
+        });
+      }
+
       // Nút Làm mới toàn bộ dữ liệu
       document.getElementById('refreshBtn').addEventListener('click', () => {
         refreshDashboard();
@@ -1932,10 +3264,12 @@
        ========================================================================== */
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      initMonthOptions();
       renderTrendCountryChips();
       initEventListeners();
       refreshDashboard();
     });
   </script>
 </body>
+
 </html>

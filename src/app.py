@@ -15,7 +15,8 @@ from features import (
     calculate_top_products,
     calculate_category_breakdown,
     calculate_shipping_analysis,
-    calculate_yearly_sales_by_country
+    calculate_yearly_sales_by_country,
+    calculate_monthly_growth_by_category
 )
 
 app = Flask(__name__, template_folder='../templates')
@@ -80,15 +81,49 @@ def shipping_analysis():
     return jsonify(result)
 
 
-# API 5: Phân tích Xu hướng Doanh thu qua từng năm của các Quốc gia
+# API 5: Phân tích Xu hướng Doanh thu (Theo Năm / Theo Tháng) của các Quốc gia
 @app.route('/api/v1/yearly-sales-by-country', methods=['GET'])
 def yearly_sales_by_country():
     countries = request.args.get('countries')
     metric = request.args.get('metric', default='sales')
     segment = request.args.get('segment')
+    period = request.args.get('period', default='year')
+    start_month = request.args.get('start_month')
+    end_month = request.args.get('end_month')
 
     filtered_df = filter_data(df, segment=segment)
-    result = calculate_yearly_sales_by_country(filtered_df, countries=countries, metric=metric)
+    result = calculate_yearly_sales_by_country(
+        filtered_df,
+        countries=countries,
+        metric=metric,
+        period=period,
+        start_month=start_month,
+        end_month=end_month
+    )
+    return jsonify(result)
+
+
+# API 6: Phân tích Xu hướng Doanh thu theo Tháng theo Category & Sub-Category
+@app.route('/api/v1/monthly-growth-by-category', methods=['GET'])
+def monthly_growth_by_category():
+    category = request.args.get('category', default='all')
+    sub_category = request.args.get('sub_category', default='all')
+    metric = request.args.get('metric', default='sales')
+    start_month = request.args.get('start_month')
+    end_month = request.args.get('end_month')
+    region = request.args.get('region')
+    segment = request.args.get('segment')
+
+    result = calculate_monthly_growth_by_category(
+        df,
+        category=category,
+        sub_category=sub_category,
+        metric=metric,
+        start_month=start_month,
+        end_month=end_month,
+        region=region,
+        segment=segment
+    )
     return jsonify(result)
 
 
