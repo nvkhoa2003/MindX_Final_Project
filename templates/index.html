@@ -1226,8 +1226,8 @@
           </div>
           <div class="kpi-value" id="kpiSales">$12,642,500</div>
           <div class="kpi-footer">
-            <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% YoY</span>
-            <span>51,290 đơn hàng</span>
+            <span class="kpi-badge positive" id="kpiSalesGrowthBadge"><i class="fa-solid fa-arrow-trend-up"></i> +18.4% YoY</span>
+            <span id="kpiSalesOrdersCount">51,290 đơn hàng</span>
           </div>
         </div>
 
@@ -1241,8 +1241,8 @@
           </div>
           <div class="kpi-value" id="kpiProfit">$1,467,500</div>
           <div class="kpi-footer">
-            <span class="kpi-badge positive"><i class="fa-solid fa-arrow-trend-up"></i> 11.6% Margin</span>
-            <span id="kpiProfitMargin">Tỷ suất LN cao</span>
+            <span class="kpi-badge positive" id="kpiProfitMarginBadge"><i class="fa-solid fa-arrow-trend-up"></i> 11.6% Margin</span>
+            <span id="kpiProfitMargin">Biên LN cao</span>
           </div>
         </div>
 
@@ -1256,8 +1256,8 @@
           </div>
           <div class="kpi-value" id="kpiShipping">$1,350,200</div>
           <div class="kpi-footer">
-            <span class="kpi-badge neutral"><i class="fa-solid fa-boxes-packing"></i> 10.7% Sales</span>
-            <span>4 hình thức ship</span>
+            <span class="kpi-badge neutral" id="kpiShippingRatioBadge"><i class="fa-solid fa-boxes-packing"></i> 10.7% Sales</span>
+            <span id="kpiShippingSubText">4 hình thức ship</span>
           </div>
         </div>
 
@@ -1271,8 +1271,8 @@
           </div>
           <div class="kpi-value" id="kpiOrders">51,290</div>
           <div class="kpi-footer">
-            <span class="kpi-badge positive"><i class="fa-solid fa-check"></i> 147 Quốc gia</span>
-            <span>Toàn cầu</span>
+            <span class="kpi-badge positive" id="kpiOrdersCountryBadge"><i class="fa-solid fa-check"></i> 147 Quốc gia</span>
+            <span id="kpiOrdersRegionText">Toàn cầu</span>
           </div>
         </div>
       </section>
@@ -1771,7 +1771,12 @@
       total_sales: 12642500,
       total_profit: 1467500,
       total_shipping: 1350200,
-      total_orders: 51290
+      total_orders: 51290,
+      total_countries: 147,
+      profit_margin: 11.6,
+      shipping_ratio: 10.7,
+      yoy_growth: 18.4,
+      yoy_label: "+18.4% YoY"
     });
 
     const getMockCountryData = () => [
@@ -3013,13 +3018,76 @@
       // 1. Lấy Doanh thu theo quốc gia & Số liệu tổng hợp KPI
       const salesRes = await fetchSalesByCountry();
       if (salesRes.summary) {
-        document.getElementById('kpiSales').textContent = formatCurrency(salesRes.summary.total_sales);
-        document.getElementById('kpiProfit').textContent = formatCurrency(salesRes.summary.total_profit);
-        document.getElementById('kpiShipping').textContent = formatCurrency(salesRes.summary.total_shipping);
-        document.getElementById('kpiOrders').textContent = formatNumber(salesRes.summary.total_orders);
+        const sum = salesRes.summary;
 
-        const margin = ((salesRes.summary.total_profit / salesRes.summary.total_sales) * 100).toFixed(1);
-        document.getElementById('kpiProfitMargin').textContent = `${margin}% LN biên`;
+        // Giá trị chính của 4 thẻ KPI
+        document.getElementById('kpiSales').textContent = formatCurrency(sum.total_sales);
+        document.getElementById('kpiProfit').textContent = formatCurrency(sum.total_profit);
+        document.getElementById('kpiShipping').textContent = formatCurrency(sum.total_shipping);
+        document.getElementById('kpiOrders').textContent = formatNumber(sum.total_orders);
+
+        // Thẻ 1: Badge YoY & Số lượng đơn hàng thực tế theo bộ lọc
+        const elSalesGrowth = document.getElementById('kpiSalesGrowthBadge');
+        const elSalesOrders = document.getElementById('kpiSalesOrdersCount');
+        if (elSalesGrowth) {
+          const yoyLabel = sum.yoy_label || (sum.yoy_growth !== null && sum.yoy_growth !== undefined ? `${sum.yoy_growth > 0 ? '+' : ''}${sum.yoy_growth}% YoY` : 'N/A');
+          const isPos = sum.yoy_growth === null || sum.yoy_growth >= 0;
+          elSalesGrowth.className = `kpi-badge ${isPos ? 'positive' : 'negative'}`;
+          elSalesGrowth.innerHTML = `<i class="fa-solid fa-arrow-trend-${isPos ? 'up' : 'down'}"></i> ${yoyLabel}`;
+        }
+        if (elSalesOrders) {
+          elSalesOrders.textContent = `${formatNumber(sum.total_orders)} đơn hàng`;
+        }
+
+        // Thẻ 2: Badge Tỷ suất LN Margin & Đánh giá biên lợi nhuận
+        const margin = sum.profit_margin !== undefined ? sum.profit_margin : (sum.total_sales > 0 ? parseFloat(((sum.total_profit / sum.total_sales) * 100).toFixed(1)) : 0);
+        const elProfitBadge = document.getElementById('kpiProfitMarginBadge');
+        const elProfitMargin = document.getElementById('kpiProfitMargin');
+        if (elProfitBadge) {
+          const marginPos = margin >= 0;
+          elProfitBadge.className = `kpi-badge ${margin >= 10 ? 'positive' : (margin >= 0 ? 'neutral' : 'negative')}`;
+          elProfitBadge.innerHTML = `<i class="fa-solid fa-arrow-trend-${marginPos ? 'up' : 'down'}"></i> ${margin}% Margin`;
+        }
+        if (elProfitMargin) {
+          let marginAssessment = 'Tỷ suất LN ổn định';
+          if (margin >= 15) marginAssessment = 'Biên LN rất cao';
+          else if (margin >= 10) marginAssessment = 'Biên LN cao';
+          else if (margin >= 5) marginAssessment = 'Biên LN trung bình';
+          else if (margin > 0) marginAssessment = 'Biên LN mỏng';
+          else marginAssessment = 'Lỗ ròng';
+          elProfitMargin.textContent = marginAssessment;
+        }
+
+        // Thẻ 3: Tỷ lệ Chi phí vận chuyển / Doanh thu & Chi phí bình quân mỗi đơn
+        const shipRatio = sum.shipping_ratio !== undefined ? sum.shipping_ratio : (sum.total_sales > 0 ? parseFloat(((sum.total_shipping / sum.total_sales) * 100).toFixed(1)) : 0);
+        const elShippingBadge = document.getElementById('kpiShippingRatioBadge');
+        const elShippingSub = document.getElementById('kpiShippingSubText');
+        if (elShippingBadge) {
+          elShippingBadge.innerHTML = `<i class="fa-solid fa-boxes-packing"></i> ${shipRatio}% Sales`;
+        }
+        if (elShippingSub) {
+          if (sum.total_orders > 0) {
+            const avgShip = (sum.total_shipping / sum.total_orders).toFixed(1);
+            elShippingSub.textContent = `TB: $${avgShip}/đơn`;
+          } else {
+            elShippingSub.textContent = '0 đơn hàng';
+          }
+        }
+
+        // Thẻ 4: Số lượng quốc gia có dữ liệu & Tên khu vực lọc
+        const totalCountries = sum.total_countries !== undefined ? sum.total_countries : (salesRes.country_data ? salesRes.country_data.length : 0);
+        const elOrdersCountry = document.getElementById('kpiOrdersCountryBadge');
+        const elOrdersRegion = document.getElementById('kpiOrdersRegionText');
+        if (elOrdersCountry) {
+          elOrdersCountry.innerHTML = `<i class="fa-solid fa-check"></i> ${totalCountries} Quốc gia`;
+        }
+        if (elOrdersRegion) {
+          if (State.filters.region && State.filters.region !== 'all') {
+            elOrdersRegion.textContent = `Khu vực: ${State.filters.region}`;
+          } else {
+            elOrdersRegion.textContent = 'Toàn cầu';
+          }
+        }
       }
 
       // 2. Vẽ Bản đồ nhiệt toàn cầu (Choropleth Map)

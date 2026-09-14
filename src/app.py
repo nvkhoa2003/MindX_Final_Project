@@ -40,7 +40,7 @@ def sales_by_country():
     segment = request.args.get('segment')
 
     filtered_df = filter_data(df, year=year, region=region, segment=segment)
-    result = calculate_sales_by_country(filtered_df)
+    result = calculate_sales_by_country(filtered_df, base_df=df, year=year, region=region, segment=segment)
     return jsonify(result)
 
 
@@ -48,7 +48,10 @@ def sales_by_country():
 @app.route('/api/v1/top-products-by-country', methods=['GET'])
 def top_products_by_country():
     country = request.args.get('country', default='United States')
-    top_n = int(request.args.get('top_n', default=5))
+    try:
+        top_n = int(request.args.get('top_n', default=5))
+    except (ValueError, TypeError):
+        top_n = 5
     year = request.args.get('year')
     segment = request.args.get('segment')
 

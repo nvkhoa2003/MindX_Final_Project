@@ -1,16 +1,71 @@
 import pandas as pd
 
-def calculate_sales_by_country(filtered_df):
+def calculate_sales_by_country(filtered_df, base_df=None, year=None, region=None, segment=None):
     """
     Tính toán số liệu KPI tổng quan và gom nhóm Doanh số / Lợi nhuận theo Quốc gia
-    cho Choropleth Map.
+    cho Choropleth Map, kèm các chỉ số KPI động (Margin, Shipping Ratio, YoY Growth, Quốc gia).
     """
+    total_sales = round(float(filtered_df['Sales'].sum()), 2) if not filtered_df.empty else 0.0
+    total_profit = round(float(filtered_df['Profit'].sum()), 2) if not filtered_df.empty else 0.0
+    total_shipping = round(float(filtered_df['Shipping Cost'].sum()), 2) if not filtered_df.empty else 0.0
+    total_orders = int(len(filtered_df))
+    total_countries = int(filtered_df['Country'].nunique()) if not filtered_df.empty else 0
+    profit_margin = round((total_profit / total_sales * 100), 1) if total_sales > 0 else 0.0
+    shipping_ratio = round((total_shipping / total_sales * 100), 1) if total_sales > 0 else 0.0
+
+    # Tính toán tăng trưởng YoY hoặc tăng trưởng chu kỳ
+    yoy_growth = None
+    yoy_label = "N/A"
+
+    if base_df is not None and not base_df.empty:
+        ref_df = base_df.copy()
+        if region and str(region).lower() != 'all':
+            ref_df = ref_df[ref_df['Market'] == region]
+        if segment and str(segment).lower() != 'all':
+            ref_df = ref_df[ref_df['Segment'] == segment]
+
+        if year and str(year).lower() != 'all':
+            try:
+                curr_year = int(year)
+                prev_year = curr_year - 1
+                prev_df = ref_df[ref_df['Year'] == prev_year]
+                if not prev_df.empty:
+                    prev_sales = prev_df['Sales'].sum()
+                    if prev_sales > 0:
+                        growth = round(((total_sales - prev_sales) / prev_sales) * 100, 1)
+                        yoy_growth = growth
+                        yoy_label = f"{growth:+.1f}% YoY"
+                    else:
+                        yoy_label = "N/A"
+                else:
+                    yoy_label = "Năm cơ sở"
+            except (ValueError, TypeError):
+                yoy_label = "N/A"
+        else:
+            all_years = sorted(ref_df['Year'].dropna().unique().astype(int).tolist())
+            if len(all_years) >= 2:
+                s_start = ref_df[ref_df['Year'] == all_years[0]]['Sales'].sum()
+                s_end = ref_df[ref_df['Year'] == all_years[-1]]['Sales'].sum()
+                if s_start > 0:
+                    overall_g = round(((s_end - s_start) / s_start) * 100, 1)
+                    yoy_growth = overall_g
+                    yoy_label = f"{overall_g:+.1f}% ({all_years[0]}-{all_years[-1]})"
+                else:
+                    yoy_label = "N/A"
+            else:
+                yoy_label = "Toàn thời gian"
+
     # 1. Tính KPI tổng hợp
     summary = {
-        "total_sales": round(float(filtered_df['Sales'].sum()), 2) if not filtered_df.empty else 0.0,
-        "total_profit": round(float(filtered_df['Profit'].sum()), 2) if not filtered_df.empty else 0.0,
-        "total_shipping": round(float(filtered_df['Shipping Cost'].sum()), 2) if not filtered_df.empty else 0.0,
-        "total_orders": int(len(filtered_df)),
+        "total_sales": total_sales,
+        "total_profit": total_profit,
+        "total_shipping": total_shipping,
+        "total_orders": total_orders,
+        "total_countries": total_countries,
+        "profit_margin": profit_margin,
+        "shipping_ratio": shipping_ratio,
+        "yoy_growth": yoy_growth,
+        "yoy_label": yoy_label,
     }
 
     if filtered_df.empty:
