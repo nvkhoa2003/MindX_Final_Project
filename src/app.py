@@ -81,7 +81,7 @@ def shipping_analysis():
     return jsonify(result)
 
 
-# API 5: Phân tích Xu hướng Doanh thu (Theo Năm / Theo Tháng) của các Quốc gia
+# API 5: Phân tích Xu hướng Doanh thu (Theo Tháng) của các Quốc gia
 @app.route('/api/v1/yearly-sales-by-country', methods=['GET'])
 def yearly_sales_by_country():
     countries = request.args.get('countries')
@@ -103,7 +103,7 @@ def yearly_sales_by_country():
     return jsonify(result)
 
 
-# API 6: Phân tích Xu hướng Doanh thu theo Tháng theo Category & Sub-Category
+# API 6: Phân tích Xu hướng Doanh thu theo Tháng của Category & Sub-Category
 @app.route('/api/v1/monthly-growth-by-category', methods=['GET'])
 def monthly_growth_by_category():
     category = request.args.get('category', default='all')
